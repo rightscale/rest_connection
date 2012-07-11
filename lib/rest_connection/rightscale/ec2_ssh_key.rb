@@ -29,6 +29,7 @@ class Ec2SshKey
 
   attr_accessor :internal
 
+  ##### ec2togw: Looks like we can delete this method (see notes)
   def self.create(opts)
     create_opts = { self.resource_singular_name.to_sym => opts }
     create_opts['cloud_id'] = opts['cloud_id'] if opts['cloud_id']
