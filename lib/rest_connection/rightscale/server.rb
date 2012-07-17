@@ -57,9 +57,6 @@ class Server
 
   def initialize(*args, &block)
     super(*args, &block)
-    if RightScale::Api::api0_1?
-      @internal = ServerInternal.new(*args, &block)
-    end
   end
 
   # The RightScale api returns the server parameters as a hash with "name" and "value".
@@ -170,10 +167,7 @@ class Server
     end
   end
 
-# Uses ServerInternal api to start and stop EBS based instances
   def start_ebs
-#    @server_internal = ServerInternal.new(:href => self.href)
-#    @server_internal.start
     if self.state == "stopped"
       t = URI.parse(self.href)
       return connection.post(t.path + '/start_ebs')
@@ -183,8 +177,6 @@ class Server
   end
 
   def stop_ebs
-#    @server_internal = ServerInternal.new(:href => self.href)
-#    @server_internal.stop
     if self.current_instance_href
       t = URI.parse(self.href)
       connection.post(t.path + '/stop_ebs')

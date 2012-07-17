@@ -56,8 +56,5 @@ class RightScript
 
   def initialize(*args, &block)
     super(*args, &block)
-    if RightScale::Api::api0_1?
-      @internal = RightScriptInternal.new(*args, &block)
-    end
   end
 end

@@ -31,9 +31,6 @@ class ServerTemplate
 
   def initialize(*args, &block)
     super(*args, &block)
-    if RightScale::Api::api0_1?
-      @internal = ServerTemplateInternal.new(*args, &block)
-    end
   end
 
   def reload

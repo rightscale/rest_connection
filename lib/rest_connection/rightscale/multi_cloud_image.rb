@@ -48,9 +48,6 @@ class MultiCloudImage
 
   def initialize(*args, &block)
     super(*args, &block)
-    if RightScale::Api::api0_1?
-      @internal = MultiCloudImageInternal.new(*args, &block)
-    end
   end
 
 end
