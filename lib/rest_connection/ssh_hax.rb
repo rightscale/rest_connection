@@ -30,18 +30,7 @@ module SshHax
   SSH_RETRY_COUNT = 3
 
   def ssh_key_config(item)
-    if item.is_a?(Array)
-      ssh_keys = item
-    elsif item.is_a?(String)
-      ssh_keys = [item]
-    elsif k = connection.settings[:ssh_key]
-      ssh_keys = [k]
-    elsif kk = connection.settings[:ssh_keys]
-      ssh_keys = kk
-    else
-      ssh_keys = nil
-    end
-    ssh_keys
+    ["/root/.ssh/api_user_key"]
   end
 
   def run_and_tail(run_this, tail_command, expect, ssh_key=nil, host_dns=self.reachable_ip)
