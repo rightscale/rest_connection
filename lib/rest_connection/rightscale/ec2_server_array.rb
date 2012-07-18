@@ -27,8 +27,6 @@ class Ec2ServerArray
   include RightScale::Api::Taggable
   extend RightScale::Api::TaggableExtend
 
-  attr_accessor :internal
-
   def initialize(*args, &block)
     super(*args, &block)
   end

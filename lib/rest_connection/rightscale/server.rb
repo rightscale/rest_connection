@@ -28,8 +28,6 @@ class Server
   include RightScale::Api::Taggable
   extend RightScale::Api::TaggableExtend
 
-  attr_accessor :internal
-
   def self.filters
     [
       :aws_id,

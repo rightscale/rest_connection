@@ -28,8 +28,6 @@ class RightScript
 
   deny_methods :create, :destroy, :update
 
-  attr_accessor :internal
-
   def self.from_yaml(yaml)
     scripts = []
     x = YAML.load(yaml)

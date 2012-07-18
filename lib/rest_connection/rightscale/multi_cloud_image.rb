@@ -27,8 +27,6 @@ class MultiCloudImage
 
   deny_methods :create, :destroy, :update
 
-  attr_accessor :internal
-
   def supported_cloud_ids
     @params["multi_cloud_image_cloud_settings"].map { |mcics| mcics.cloud_id }
   end
