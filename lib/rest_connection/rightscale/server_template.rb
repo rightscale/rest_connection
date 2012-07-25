@@ -80,12 +80,8 @@ class ServerTemplate
 
   def fetch_multi_cloud_images
     @params["multi_cloud_images"] = []
-    ServerTemplateInternal.new(:href => self.href).multi_cloud_images.each { |mci_params|
-      @params["multi_cloud_images"] << MultiCloudImageInternal.new(mci_params)
-    }
-    mcis = McServerTemplate.find(self.rs_id.to_i).multi_cloud_images
-    @params["multi_cloud_images"].each_index { |i|
-      @params["multi_cloud_images"][i]["multi_cloud_image_cloud_settings"] += mcis[i].settings
+    McServerTemplate.find(self.rs_id.to_i).multi_cloud_images.each { |mci|
+      @params["multi_cloud_images"] << McMultiCloudImage.new(mci.params)
     }
     @params["multi_cloud_images"]
   end
