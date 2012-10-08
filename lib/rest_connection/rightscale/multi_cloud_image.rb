@@ -31,6 +31,11 @@ class MultiCloudImage
     @params["multi_cloud_image_cloud_settings"].map { |mcics| mcics.cloud_id }
   end
 
+  def find_and_flatten_settings()
+    @params["multi_cloud_image_cloud_settings"] = McMultiCloudImage.find(rs_id.to_i).settings
+  end
+
+=begin
   # You must have access to multiple APIs for this (0.1, and 1.5)
   def find_and_flatten_settings()
     internal = MultiCloudImageInternal.new("href" => self.href)
@@ -43,6 +48,7 @@ class MultiCloudImage
     end
     @params["multi_cloud_image_cloud_settings"] = internal.settings + more_settings
   end
+=end
 
   def initialize(*args, &block)
     super(*args, &block)
