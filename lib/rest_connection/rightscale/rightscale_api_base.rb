@@ -117,6 +117,11 @@ module RightScale
         @@connection
       end
 
+      def reconnect(*opts)
+        @@connection = nil
+        connection(*opts)
+      end
+
       def disconnect
         @@connection = nil
       end
