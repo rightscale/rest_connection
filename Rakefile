@@ -8,7 +8,7 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.homepage = "http://github.com/rightscale/rest_connection"
   gemspec.authors = ["Jeremy Deininger", "Timothy Rodriguez"]
   gemspec.add_dependency('activesupport', "=2.3.10")
-  gemspec.add_dependency('net-ssh', "=2.1.4")
+  gemspec.add_dependency('net-ssh', ">=2.1.4")
   gemspec.add_dependency('json')
   gemspec.add_dependency('highline')
   gemspec.add_dependency('rest-client')
