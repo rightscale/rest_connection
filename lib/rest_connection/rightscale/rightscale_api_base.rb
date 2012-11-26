@@ -116,6 +116,10 @@ module RightScale
         @@connection.refresh_cookie unless @@connection.cookie
         @@connection
       end
+
+      def disconnect
+        @@connection = nil
+      end
     end
 
     module BaseExtend
