@@ -98,7 +98,17 @@ module RestConnection
     #
     def rest_connect(&block)
       uri = URI.parse(@settings[:api_href])
-      http = Net::HTTP.new(uri.host, uri.port)
+      if ENV['http_proxy']
+        proxyUri = URI.parse(ENV['http_proxy'])
+        proxy_host, proxy_port = proxyUri.host, proxyUri.port
+        proxy_user, proxy_pass = proxyUri.userinfo.split(/:/) if proxyUri.userinfo
+        msg = "Using proxy #{proxy_host}:#{proxy_port}"
+        msg = "#{msg}; username = #{proxy_user}" if proxy_user
+        logger(msg)
+        http = Net::HTTP::Proxy(proxy_host, proxy_port, proxy_user, proxy_pass).new(uri.host, uri.port)
+      else
+        http = Net::HTTP.new(uri.host, uri.port)
+      end
       if uri.scheme == 'https'
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
