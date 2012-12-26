@@ -24,17 +24,19 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class Cloud
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RightScale
+  class Cloud
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
 
-  deny_methods :create, :destroy, :update
+    deny_methods :create, :destroy, :update
 
-  def self.filters
-    [:description, :name]
-  end
+    def self.filters
+      [:description, :name]
+    end
 
-  def cloud_id
-    self.href.split("/").last
+    def cloud_id
+      self.href.split("/").last
+    end
   end
 end

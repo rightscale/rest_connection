@@ -24,44 +24,46 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McVolume
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
-  include RightScale::Api::McTaggable
-  extend RightScale::Api::McTaggableExtend
+module RightScale
+  class McVolume
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
+    include RightScale::Api::McTaggable
+    extend RightScale::Api::McTaggableExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def resource_plural_name
-    "volumes"
-  end
+    def resource_plural_name
+      "volumes"
+    end
 
-  def resource_singular_name
-    "volume"
-  end
+    def resource_singular_name
+      "volume"
+    end
 
-  def self.resource_plural_name
-    "volumes"
-  end
+    def self.resource_plural_name
+      "volumes"
+    end
 
-  def self.resource_singular_name
-    "volume"
-  end
+    def self.resource_singular_name
+      "volume"
+    end
 
-  def self.parse_args(cloud_id)
-    "clouds/#{cloud_id}/"
-  end
+    def self.parse_args(cloud_id)
+      "clouds/#{cloud_id}/"
+    end
 
-  def self.filters
-    [:datacenter_href, :description, :name, :parent_volume_snapshot_href, :resource_uid]
-  end
+    def self.filters
+      [:datacenter_href, :description, :name, :parent_volume_snapshot_href, :resource_uid]
+    end
 
-  def show
-    inst_href = URI.parse(self.href)
-    @params.merge! connection.get(inst_href.path, 'view' => 'extended')
-  end
+    def show
+      inst_href = URI.parse(self.href)
+      @params.merge! connection.get(inst_href.path, 'view' => 'extended')
+    end
 
-  def attachment
-    connection.get(self.current_volume_attachment)
+    def attachment
+      connection.get(self.current_volume_attachment)
+    end
   end
 end

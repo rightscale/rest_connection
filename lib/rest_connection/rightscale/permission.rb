@@ -29,13 +29,15 @@
 # Permission Resource requires "admin" role
 #
 
-class Permission
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RightScale
+  class Permission
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def self.filters
-    [:user_href]
+    def self.filters
+      [:user_href]
+    end
   end
 end

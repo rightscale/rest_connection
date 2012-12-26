@@ -24,35 +24,37 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McServerArray
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
-  include RightScale::Api::McTaggable
-  extend RightScale::Api::McTaggableExtend
+module RightScale
+  class McServerArray
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
+    include RightScale::Api::McTaggable
+    extend RightScale::Api::McTaggableExtend
 
-  def resource_plural_name
-    "server_arrays"
+    def resource_plural_name
+      "server_arrays"
+    end
+
+    def resource_singular_name
+      "server_array"
+    end
+
+    def self.resource_plural_name
+      "server_arrays"
+    end
+
+    def self.resource_singular_name
+      "server_array"
+    end
+
+    def self.parse_args(deployment_id=nil)
+      (deployment_id ? "deployments/#{deployment_id}/" : "")
+    end
+
+    def self.filters
+      [:deployment_href, :name]
+    end
+
+    # TODO
   end
-
-  def resource_singular_name
-    "server_array"
-  end
-
-  def self.resource_plural_name
-    "server_arrays"
-  end
-
-  def self.resource_singular_name
-    "server_array"
-  end
-
-  def self.parse_args(deployment_id=nil)
-    (deployment_id ? "deployments/#{deployment_id}/" : "")
-  end
-
-  def self.filters
-    [:deployment_href, :name]
-  end
-
-  # TODO
 end

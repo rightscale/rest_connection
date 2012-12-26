@@ -21,27 +21,29 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Ec2SshKey
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RightScale
+  class Ec2SshKey
+    include RightScale::Api::Base
+    extend RightScale::Api::BaseExtend
 
-  deny_methods :index, :update
+    deny_methods :index, :update
 
-  attr_accessor :internal
+    attr_accessor :internal
 
-  def self.create(opts)
-    create_opts = { self.resource_singular_name.to_sym => opts }
-    create_opts['cloud_id'] = opts['cloud_id'] if opts['cloud_id']
-    location = connection.post(self.resource_plural_name, create_opts)
-    newrecord = self.new('href' => location)
-    newrecord.reload
-    newrecord
-  end
+    def self.create(opts)
+      create_opts = { self.resource_singular_name.to_sym => opts }
+      create_opts['cloud_id'] = opts['cloud_id'] if opts['cloud_id']
+      location = connection.post(self.resource_plural_name, create_opts)
+      newrecord = self.new('href' => location)
+      newrecord.reload
+      newrecord
+    end
 
-  def initialize(*args, &block)
-    super(*args, &block)
-    if RightScale::Api::api0_1?
-      @internal = Ec2SshKeyInternal.new(*args, &block)
+    def initialize(*args, &block)
+      super(*args, &block)
+      if RightScale::Api::api0_1?
+        @internal = Ec2SshKeyInternal.new(*args, &block)
+      end
     end
   end
 end

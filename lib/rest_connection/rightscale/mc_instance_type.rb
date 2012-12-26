@@ -24,38 +24,40 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McInstanceType
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RightScale
+  class McInstanceType
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
 
-  deny_methods :create, :destroy, :update
+    deny_methods :create, :destroy, :update
 
-  def resource_plural_name
-    "instance_types"
-  end
+    def resource_plural_name
+      "instance_types"
+    end
 
-  def resource_singular_name
-    "instance_type"
-  end
+    def resource_singular_name
+      "instance_type"
+    end
 
-  def self.resource_plural_name
-    "instance_types"
-  end
+    def self.resource_plural_name
+      "instance_types"
+    end
 
-  def self.resource_singular_name
-    "instance_type"
-  end
+    def self.resource_singular_name
+      "instance_type"
+    end
 
-  def self.parse_args(cloud_id)
-    "clouds/#{cloud_id}/"
-  end
+    def self.parse_args(cloud_id)
+      "clouds/#{cloud_id}/"
+    end
 
-  def self.filters
-    [:cpu_architecture, :description, :name, :resource_uid]
-  end
+    def self.filters
+      [:cpu_architecture, :description, :name, :resource_uid]
+    end
 
-  def show
-    inst_href = URI.parse(self.href)
-    @params.merge! connection.get(inst_href.path, 'view' => "default")
+    def show
+      inst_href = URI.parse(self.href)
+      @params.merge! connection.get(inst_href.path, 'view' => "default")
+    end
   end
 end

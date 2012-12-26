@@ -29,13 +29,15 @@
 # User Resource requires "admin" role
 #
 
-class User
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RightScale
+  class User
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
 
-  deny_methods :destroy, :update
+    deny_methods :destroy, :update
 
-  def self.filters
-    [:email, :first_name, :last_name]
+    def self.filters
+      [:email, :first_name, :last_name]
+    end
   end
 end

@@ -21,9 +21,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Ec2EbsSnapshot
-  include  RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
-  include RightScale::Api::Taggable
-  extend RightScale::Api::TaggableExtend
+module RightScale
+  class Ec2EbsSnapshot
+    include  RightScale::Api::Base
+    extend RightScale::Api::BaseExtend
+    include RightScale::Api::Taggable
+    extend RightScale::Api::TaggableExtend
+  end
 end

@@ -24,33 +24,35 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McImage
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RightScale
+  class McImage
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
 
-  deny_methods :create, :destroy, :update
+    deny_methods :create, :destroy, :update
 
-  def resource_plural_name
-    "images"
-  end
+    def resource_plural_name
+      "images"
+    end
 
-  def resource_singular_name
-    "image"
-  end
+    def resource_singular_name
+      "image"
+    end
 
-  def self.resource_plural_name
-    "images"
-  end
+    def self.resource_plural_name
+      "images"
+    end
 
-  def self.resource_singular_name
-    "image"
-  end
+    def self.resource_singular_name
+      "image"
+    end
 
-  def self.filters
-    [:cpu_architecture, :description, :image_type, :name, :os_platform, :resource_uid, :visibility]
-  end
+    def self.filters
+      [:cpu_architecture, :description, :image_type, :name, :os_platform, :resource_uid, :visibility]
+    end
 
-  def self.parse_args(cloud_id)
-    "clouds/#{cloud_id}/"
+    def self.parse_args(cloud_id)
+      "clouds/#{cloud_id}/"
+    end
   end
 end

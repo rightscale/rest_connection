@@ -24,41 +24,43 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McSshKey
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RightScale
+  class McSshKey
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def resource_plural_name
-    "ssh_keys"
-  end
+    def resource_plural_name
+      "ssh_keys"
+    end
 
-  def resource_singular_name
-    "ssh_key"
-  end
+    def resource_singular_name
+      "ssh_key"
+    end
 
-  def self.resource_plural_name
-    "ssh_keys"
-  end
+    def self.resource_plural_name
+      "ssh_keys"
+    end
 
-  def self.resource_singular_name
-    "ssh_key"
-  end
+    def self.resource_singular_name
+      "ssh_key"
+    end
 
-  def self.parse_args(cloud_id)
-    "clouds/#{cloud_id}/"
-  end
+    def self.parse_args(cloud_id)
+      "clouds/#{cloud_id}/"
+    end
 
-  def self.filters
-    [:resource_uid]
-  end
+    def self.filters
+      [:resource_uid]
+    end
 
-  def self.create(opts)
-    create_opts = { self.resource_singular_name.to_sym => opts }
-    location = connection.post("clouds/#{opts['cloud_id']}/#{self.resource_plural_name}", create_opts)
-    newrecord = self.new('href' => location)
-    newrecord.reload
-    newrecord
+    def self.create(opts)
+      create_opts = { self.resource_singular_name.to_sym => opts }
+      location = connection.post("clouds/#{opts['cloud_id']}/#{self.resource_plural_name}", create_opts)
+      newrecord = self.new('href' => location)
+      newrecord.reload
+      newrecord
+    end
   end
 end

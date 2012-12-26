@@ -24,46 +24,48 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McVolumeSnapshot
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
-  include RightScale::Api::McTaggable
-  extend RightScale::Api::McTaggableExtend
+module RightScale
+  class McVolumeSnapshot
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
+    include RightScale::Api::McTaggable
+    extend RightScale::Api::McTaggableExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def resource_plural_name
-    "volume_snapshots"
-  end
+    def resource_plural_name
+      "volume_snapshots"
+    end
 
-  def resource_singular_name
-    "volume_snapshot"
-  end
+    def resource_singular_name
+      "volume_snapshot"
+    end
 
-  def self.resource_plural_name
-    "volume_snapshots"
-  end
+    def self.resource_plural_name
+      "volume_snapshots"
+    end
 
-  def self.resource_singular_name
-    "volume_snapshot"
-  end
+    def self.resource_singular_name
+      "volume_snapshot"
+    end
 
-  def self.parse_args(cloud_id, volume_id=nil)
-    return "clouds/#{cloud_id}/" unless volume_id
-    return "clouds/#{cloud_id}/volumes/#{volume_id}/" if volume_id
-  end
+    def self.parse_args(cloud_id, volume_id=nil)
+      return "clouds/#{cloud_id}/" unless volume_id
+      return "clouds/#{cloud_id}/volumes/#{volume_id}/" if volume_id
+    end
 
-  def self.filters
-    [:description, :name, :parent_volume_href, :resource_uid]
-  end
+    def self.filters
+      [:description, :name, :parent_volume_href, :resource_uid]
+    end
 
-  def show
-    inst_href = URI.parse(self.href)
-    @params.merge! connection.get(inst_href.path)
-  end
+    def show
+      inst_href = URI.parse(self.href)
+      @params.merge! connection.get(inst_href.path)
+    end
 
-  def save
-    inst_href = URI.parse(self.href)
-    connection.put(inst_href.path, @params)
+    def save
+      inst_href = URI.parse(self.href)
+      connection.put(inst_href.path, @params)
+    end
   end
 end

@@ -21,9 +21,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class SqsQueue
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RightScale
+  class SqsQueue
+    include RightScale::Api::Base
+    extend RightScale::Api::BaseExtend
 
-  deny_methods :update
+    deny_methods :update
+  end
 end

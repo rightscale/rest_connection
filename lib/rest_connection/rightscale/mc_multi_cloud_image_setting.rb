@@ -24,44 +24,46 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McMultiCloudImageSetting
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RightScale
+  class McMultiCloudImageSetting
+    include RightScale::Api::Gateway
+    extend RightScale::Api::GatewayExtend
 
-  deny_methods :update #supported in API, not imp'd in code yet
+    deny_methods :update #supported in API, not imp'd in code yet
 
-  def resource_plural_name
-    "settings"
-  end
+    def resource_plural_name
+      "settings"
+    end
 
-  def resource_singular_name
-    "setting"
-  end
+    def resource_singular_name
+      "setting"
+    end
 
-  def self.resource_plural_name
-    "settings"
-  end
+    def self.resource_plural_name
+      "settings"
+    end
 
-  def self.resource_singular_name
-    "setting"
-  end
+    def self.resource_singular_name
+      "setting"
+    end
 
-  def self.parse_args(multi_cloud_image_id)
-    "multi_cloud_images/#{multi_cloud_image_id}/"
-  end
+    def self.parse_args(multi_cloud_image_id)
+      "multi_cloud_images/#{multi_cloud_image_id}/"
+    end
 
-  def self.filters
-    [:cloud_href, :multi_cloud_image_href]
-  end
+    def self.filters
+      [:cloud_href, :multi_cloud_image_href]
+    end
 
-  def cloud_id
-    self.cloud.split(/\//).last.to_i
-  end
+    def cloud_id
+      self.cloud.split(/\//).last.to_i
+    end
 
-  # API 1.5 MultiCloudImageSetting is posted to url
-  # /api/multi_cloud_images/:id/settings but the object it posts to the
-  # API is named :multi_cloud_image_setting => { attrs }
-  def self.resource_post_name
-    "multi_cloud_image_setting"
+    # API 1.5 MultiCloudImageSetting is posted to url
+    # /api/multi_cloud_images/:id/settings but the object it posts to the
+    # API is named :multi_cloud_image_setting => { attrs }
+    def self.resource_post_name
+      "multi_cloud_image_setting"
+    end
   end
 end

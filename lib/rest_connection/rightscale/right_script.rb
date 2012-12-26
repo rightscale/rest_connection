@@ -21,43 +21,44 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
+module RightScale
+  class RightScript
+    include RightScale::Api::Base
+    extend RightScale::Api::BaseExtend
 
-class RightScript
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+    deny_methods :create, :destroy, :update
 
-  deny_methods :create, :destroy, :update
+    attr_accessor :internal
 
-  attr_accessor :internal
-
-  def self.from_yaml(yaml)
-    scripts = []
-    x = YAML.load(yaml)
-    x.keys.each do |script|
-      scripts << self.new('href' => "right_scripts/#{script}", 'name' => x[script].ivars['name'])
+    def self.from_yaml(yaml)
+      scripts = []
+      x = YAML.load(yaml)
+      x.keys.each do |script|
+        scripts << self.new('href' => "right_scripts/#{script}", 'name' => x[script].ivars['name'])
+      end
+      scripts
     end
-    scripts
-  end
 
-  def self.from_instance_info(file = "/var/spool/ec2/rs_cache/info.yml")
-    scripts = []
-    if File.exists?(file)
-      x = YAML.load(IO.read(file))
-    elsif File.exists?(File.join(File.dirname(__FILE__),'info.yml'))
-      x = YAML.load(IO.read(File.join(File.dirname(__FILE__),'info.yml')))
-    else
-      return nil
+    def self.from_instance_info(file = "/var/spool/ec2/rs_cache/info.yml")
+      scripts = []
+      if File.exists?(file)
+        x = YAML.load(IO.read(file))
+      elsif File.exists?(File.join(File.dirname(__FILE__),'info.yml'))
+        x = YAML.load(IO.read(File.join(File.dirname(__FILE__),'info.yml')))
+      else
+        return nil
+      end
+      x.keys.each do |script|
+        scripts << self.new('href' => "right_scripts/#{script}", 'name' => x[script].ivars['name'])
+      end
+      scripts
     end
-    x.keys.each do |script|
-      scripts << self.new('href' => "right_scripts/#{script}", 'name' => x[script].ivars['name'])
-    end
-    scripts
-  end
 
-  def initialize(*args, &block)
-    super(*args, &block)
-    if RightScale::Api::api0_1?
-      @internal = RightScriptInternal.new(*args, &block)
+    def initialize(*args, &block)
+      super(*args, &block)
+      if RightScale::Api::api0_1?
+        @internal = RightScriptInternal.new(*args, &block)
+      end
     end
   end
 end

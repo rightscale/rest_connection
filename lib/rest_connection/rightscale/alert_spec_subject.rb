@@ -21,9 +21,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class AlertSpecSubject
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RightScale
+  class AlertSpecSubject
+    include RightScale::Api::Base
+    extend RightScale::Api::BaseExtend
 
-  deny_methods :index, :destroy, :update, :show
+    deny_methods :index, :destroy, :update, :show
+  end
 end
