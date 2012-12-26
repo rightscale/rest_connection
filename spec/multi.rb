@@ -25,11 +25,11 @@ require 'rubygems'
 require 'rest_connection'
 require 'ruby-debug'
 
-describe MultiCloudImage do
+describe RightScale::MultiCloudImage do
   it "goes" do
 
-    mci = MultiCloudImage.find(46563)
-    mci = MultiCloudImage.find(57499)
+    mci = RightScale::MultiCloudImage.find(46563)
+    mci = RightScale::MultiCloudImage.find(57499)
     settings = mci.find_and_flatten_settings
     debugger
 puts "blah"

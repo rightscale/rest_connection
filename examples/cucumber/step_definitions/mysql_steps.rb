@@ -25,7 +25,7 @@ require 'rubygems'
 require 'sqlite3'
 
 Given /A set of RightScripts for MySQL promote operations\.$/ do
-  st = ServerTemplate.find(@servers[1].server_template_href)
+  st = RightScale::ServerTemplate.find(@servers[1].server_template_href)
   @scripts_to_run = {}
   @scripts_to_run['restore'] = st.executables.detect { |ex| ex.name =~  /restore and become/i }
   @scripts_to_run['slave_init'] = st.executables.detect { |ex| ex.name =~ /slave init v2/ }
@@ -33,9 +33,9 @@ Given /A set of RightScripts for MySQL promote operations\.$/ do
   @scripts_to_run['backup'] = st.executables.detect { |ex| ex.name =~ /EBS backup/ }
   @scripts_to_run['terminate'] = st.executables.detect { |ex| ex.name =~ /TERMINATE/ }
 # hardwired script! hax! (this is an 'anyscript' that users typically use to setup the master dns)
-  @scripts_to_run['master_init'] = RightScript.new('href' => "/api/acct/2901/right_scripts/195053")
-  @scripts_to_run['create_stripe'] = RightScript.new('href' => "/api/acct/2901/right_scripts/198381")
-  @scripts_to_run['create_mysql_ebs_stripe'] = RightScript.new('href' => "/api/acct/2901/right_scripts/212492")
+  @scripts_to_run['master_init'] = RightScale::RightScript.new('href' => "/api/acct/2901/right_scripts/195053")
+  @scripts_to_run['create_stripe'] = RightScale::RightScript.new('href' => "/api/acct/2901/right_scripts/198381")
+  @scripts_to_run['create_mysql_ebs_stripe'] = RightScale::RightScript.new('href' => "/api/acct/2901/right_scripts/212492")
 end
 
 Then /^I should run a mysql query "([^\"]*)" on server "([^\"]*)"\.$/ do |query, server_index|

@@ -25,41 +25,43 @@ require 'rubygems'
 require 'rest_connection'
 require 'ruby-debug'
 
-describe Ec2ServerArray, "takes over the world with some server arrays" do
+describe RightScale::Ec2ServerArray, "takes over the world with some server arrays" do
   before(:all) do
     # store temporary resources in @t_resources so we can tear down afterwards
     @t_resources = Hash.new
-    @t_resources[:deployment] = Deployment.create(:nickname => "testdeploymentcandelete123")
-    @default_sec_group = Ec2SecurityGroup.find(:first) { |g| g.aws_group_name == 'default' }
-    @mci = MultiCloudImage.find(:first)
+    @t_resources[:deployment] = RightScale::Deployment.create(:nickname => "testdeploymentcandelete123")
+    @default_sec_group = RightScale::Ec2SecurityGroup.find(:first) { |g| g.aws_group_name == 'default' }
+    @mci = RightScale::MultiCloudImage.find(:first)
 # Need to hardcode a server template with a script with no inputs, for the test of run on all
-    @server_template = ServerTemplate.find(63400)
-    #@t_resources[:server_template] = ServerTemplate.create( :nickname => "Nickname of the ServerTemplate",
-    #                                                        :description => "Description of the ServerTemplate",
-    #                                                        :multi_cloud_image_href => @mci.href 
-    #                                                        )
+    @server_template = RightScale::ServerTemplate.find(63400)
+    #@t_resources[:server_template] = 
+    #  RightScale::ServerTemplate.create( :nickname => "Nickname of the ServerTemplate",
+    #                                     :description => "Description of the ServerTemplate",
+    #                                     :multi_cloud_image_href => @mci.href 
+    #                                     )
 
 # SSH Keys index call is 403 forbidden so lookup is not possible. 
 # Hardcoded for a default key.
-    @ssh_key = Ec2SshKey.find(7053)
-    @t_resources[:ec2_server_array] = Ec2ServerArray.create(:nickname => "testarraycandelete123", 
-                                                            :description => "created by specs run, you can delete this if you want", 
-                                                            :array_type => "alert", 
-                                                            #:elasticity_params => , 
-                                                            :active => 'true',
-                                                            :deployment_href => @t_resources[:deployment].href, 
-                                                            :server_template_href => @server_template.href, 
-                                                            #:indicator_href,
-                                                            #:audit_queue_href, 
-                                                            :ec2_ssh_key_href => @ssh_key.href, 
-                                                            :ec2_security_group_href => @default_sec_group.href,
-                                                            #:ec2_security_groups_href => , 
-                                                            #:elasticity_function, 
-                                                            :elasticity => { :min_count => "1", :max_count => "2" }, 
-                                                            #:parameters, 
-                                                            #:tags,
-                                                            :collect_audit_entries => "1"
-                                                            )
+    @ssh_key = RightScale::Ec2SshKey.find(7053)
+    @t_resources[:ec2_server_array] = 
+      RightScale::Ec2ServerArray.create(:nickname => "testarraycandelete123", 
+                                        :description => "created by specs run, you can delete this if you want", 
+                                        :array_type => "alert", 
+                                        #:elasticity_params => , 
+                                        :active => 'true',
+                                        :deployment_href => @t_resources[:deployment].href, 
+                                        :server_template_href => @server_template.href, 
+                                        #:indicator_href,
+                                        #:audit_queue_href, 
+                                        :ec2_ssh_key_href => @ssh_key.href, 
+                                        :ec2_security_group_href => @default_sec_group.href,
+                                        #:ec2_security_groups_href => , 
+                                        #:elasticity_function, 
+                                        :elasticity => { :min_count => "1", :max_count => "2" }, 
+                                        #:parameters, 
+                                        #:tags,
+                                        :collect_audit_entries => "1"
+                                        )
     @my_array = @t_resources[:ec2_server_array]
   end
 
