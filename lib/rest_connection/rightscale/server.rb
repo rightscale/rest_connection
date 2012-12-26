@@ -461,7 +461,8 @@ module RightScale
     end
 
     def clear_tags(namespace = nil)
-      tags = self.tags(true)
+      tags = RightScale::Array.new
+      tags.deep_merge! self.tags(true)
       tags.deep_merge! self.current_tags if self.current_instance_href
       tags = tags.select { |tag| tag.start_with?("#{namespace}:") } if namespace
       self.remove_tags(*tags)

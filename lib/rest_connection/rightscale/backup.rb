@@ -70,7 +70,8 @@ module RightScale
 
     def restore(instance_href, name=nil, description=nil)
       uri = URI.parse(self.href)
-      params = {'instance_href' => instance_href}
+      params = RightScale::Hash.new
+      params['instance_href'] = instance_href
       params.deep_merge!({'backup' => {'name' => name}}) if name
       params.deep_merge!({'backup' => {'description' => description}}) if description
       location = connection.post(uri.path + "/restore", params)
