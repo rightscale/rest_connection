@@ -32,7 +32,7 @@ module RestConnection::RightScale
         settings[:extension] = ".js"
 
         unless @@little_brother_connection.respond_to?(:refresh_cookie)
-          @@little_brother_connection.instance_exec(&(RightScale::Api::BASE_COOKIE_REFRESH))
+          @@little_brother_connection.instance_exec(&(RestConnection::RightScale::Api::BASE_COOKIE_REFRESH))
         end
 
         @@little_brother_connection.refresh_cookie unless @@little_brother_connection.cookie

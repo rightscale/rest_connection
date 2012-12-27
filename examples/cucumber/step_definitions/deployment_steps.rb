@@ -30,7 +30,7 @@ Given /A deployment./ do
   @all_servers = Array.new
   @all_servers_os = Array.new
   @all_responses = Array.new
-  @deployment = RightScale::Deployment.find_by_nickname_speed(ENV['DEPLOYMENT']).first
+  @deployment = RestConnection::RightScale::Deployment.find_by_nickname_speed(ENV['DEPLOYMENT']).first
   @servers = @deployment.servers
 
   if ENV['SERVER_TAG']
@@ -73,7 +73,7 @@ end
 Given /A deployment named "(.*)"/ do | deployment |
   @all_servers = Array.new
   @all_responses = Array.new
-  @deployment = RightScale::Deployment.find_by_nickname_speed(deployment).first
+  @deployment = RestConnection::RightScale::Deployment.find_by_nickname_speed(deployment).first
   raise "FATAL: Couldn't find a deployment with the name #{deployment}!" unless deployment
 end
 

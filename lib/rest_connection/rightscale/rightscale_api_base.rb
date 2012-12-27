@@ -111,7 +111,7 @@ module RestConnection
           settings[:extension] = ".js"
 
           unless @@connection.respond_to?(:refresh_cookie)
-            @@connection.instance_exec(&(RightScale::Api::BASE_COOKIE_REFRESH))
+            @@connection.instance_exec(&(RestConnection::RightScale::Api::BASE_COOKIE_REFRESH))
           end
 
           @@connection.refresh_cookie unless @@connection.cookie

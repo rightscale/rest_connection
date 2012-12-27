@@ -56,7 +56,7 @@ module RestConnection::RightScale
         settings[:extension] = ".json"
 
         unless @@gateway_connection.respond_to?(:refresh_cookie)
-          @@gateway_connection.instance_exec(&(RightScale::Api::GATEWAY_COOKIE_REFRESH))
+          @@gateway_connection.instance_exec(&(RestConnection::RightScale::Api::GATEWAY_COOKIE_REFRESH))
         end
 
         @@gateway_connection.refresh_cookie unless @@gateway_connection.cookie
@@ -180,7 +180,7 @@ module RestConnection::RightScale
       end
 
       def load(resource)
-        mod = RightScale::Api::GatewayExtend
+        mod = RestConnection::RightScale::Api::GatewayExtend
         @@gateway_resources ||= Object.constants.map do |const|
           klass = Object.const_get(const)
           (mod === klass ? klass : nil)

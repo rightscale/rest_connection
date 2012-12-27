@@ -52,8 +52,8 @@ module RestConnection::RightScale
     end
 
     def self.find_all(start_date=nil, end_date=nil, limit=1000)
-      start_date ||= (Time.now.utc - (60*60*24*31)).strftime(RightScale::Api::DATETIME_FMT)
-      end_date ||= Time.now.utc.strftime(RightScale::Api::DATETIME_FMT)
+      start_date ||= (Time.now.utc - (60*60*24*31)).strftime(RestConnection::RightScale::Api::DATETIME_FMT)
+      end_date ||= Time.now.utc.strftime(RestConnection::RightScale::Api::DATETIME_FMT)
       index(start_date, end_date, limit)
     end
 
