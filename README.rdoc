@@ -35,14 +35,14 @@ Copy the example from GEMHOME/rest_connection/config/rest_api_config.yaml.sample
 
 === Stop a Deployment
 
-  deployment = Deployment.find(opts[:id])
+  deployment = RestConnection::RightScale::Deployment.find(opts[:id])
   my_servers = deployment.servers
   my_servers.each { |s| s.stop }
   my_servers.each { |s| s.wait_for_state("stopped") }
 
 === Activate an Ec2ServerArray / Display instances IPs
 
-  my_array = Ec2ServerArray.find(opts[:href])
+  my_array = RestConnection::RightScale::Ec2ServerArray.find(opts[:href])
   my_array.active = true
   my_array.save
 
