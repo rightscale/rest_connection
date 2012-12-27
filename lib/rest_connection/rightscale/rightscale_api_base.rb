@@ -122,11 +122,11 @@ module RightScale
       include RightScale::Api::BaseConnection
 
       def resource_plural_name
-        self.to_s.underscore.pluralize
+        self.to_s.split("::").last.underscore.pluralize
       end
 
       def resource_singular_name
-        self.to_s.underscore
+        self.to_s.split("::").last.underscore
       end
       # matches using result of block match expression
       # ex: Server.find_by(:nickname) { |n| n =~ /production/ }
