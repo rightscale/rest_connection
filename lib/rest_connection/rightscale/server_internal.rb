@@ -24,13 +24,13 @@
 #
 # You must have special API access to use these internal API calls.
 #
-module RightScale
+module RestConnection::RightScale
   class ServerInternal
-    include RightScale::Api::Base
-    extend RightScale::Api::BaseExtend
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
     include SshHax
-    include RightScale::Api::Internal
-    extend RightScale::Api::InternalExtend
+    include RestConnection::RightScale::Api::Internal
+    extend RestConnection::RightScale::Api::InternalExtend
 
     deny_methods :index, :show, :create, :destroy, :update
 

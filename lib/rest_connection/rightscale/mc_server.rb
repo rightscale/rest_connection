@@ -23,12 +23,12 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RightScale
+module RestConnection::RightScale
   class McServer < Server
-    include RightScale::Api::Gateway
-    extend RightScale::Api::GatewayExtend
-    include RightScale::Api::McTaggable
-    extend RightScale::Api::McTaggableExtend
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
+    include RestConnection::RightScale::Api::McTaggable
+    extend RestConnection::RightScale::Api::McTaggableExtend
     attr_accessor :current_instance, :next_instance, :inputs
 
     def resource_plural_name
@@ -346,7 +346,7 @@ module RightScale
     end
 
     def clear_tags(namespace = nil)
-      tags = RightScale::Array.new
+      tags = RestConnection::Array.new
       tags.deep_merge! self.tags(true)
       tags.deep_merge! self.current_tags if @current_instance
       tags = tags.select { |tag| tag.start_with?("#{namespace}:") } if namespace

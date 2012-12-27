@@ -24,10 +24,10 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RightScale
+module RestConnection::RightScale
   class Backup
-    include RightScale::Api::Gateway
-    extend RightScale::Api::GatewayExtend
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
     deny_methods :index
 
@@ -70,7 +70,7 @@ module RightScale
 
     def restore(instance_href, name=nil, description=nil)
       uri = URI.parse(self.href)
-      params = RightScale::Hash.new
+      params = RestConnection::Hash.new
       params['instance_href'] = instance_href
       params.deep_merge!({'backup' => {'name' => name}}) if name
       params.deep_merge!({'backup' => {'description' => description}}) if description

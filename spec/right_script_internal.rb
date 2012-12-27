@@ -24,10 +24,10 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 require 'ruby-debug'
 
-describe RightScale::RightScriptInternal, "exercises the right_script internal api" do
+describe RestConnection::RightScale::RightScriptInternal, "exercises the right_script internal api" do
 
   it "should do some stuff" do
-    @some_script = RightScale::RightScriptInternal.new(:href => "https://my.rightscale.com/api/acct/2901/right_scripts/256669")
+    @some_script = RestConnection::RightScale::RightScriptInternal.new(:href => "https://my.rightscale.com/api/acct/2901/right_scripts/256669")
 
     # Test commit
     @some_script.commit("hello commits world")
@@ -36,7 +36,7 @@ describe RightScale::RightScriptInternal, "exercises the right_script internal a
     @new_script = @some_script.clone
 
     # Test update
-    @same_script = RightScale::RightScriptInternal.new(:href => @new_script.href)
+    @same_script = RestConnection::RightScale::RightScriptInternal.new(:href => @new_script.href)
     @same_script.name = "newname123"
     @same_script.save
 

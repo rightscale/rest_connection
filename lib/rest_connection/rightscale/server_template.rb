@@ -21,18 +21,18 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RightScale
+module RestConnection::RightScale
   class ServerTemplate
-    include RightScale::Api::Base
-    extend RightScale::Api::BaseExtend
-    include RightScale::Api::Taggable
-    extend RightScale::Api::TaggableExtend
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
+    include RestConnection::RightScale::Api::Taggable
+    extend RestConnection::RightScale::Api::TaggableExtend
 
     attr_accessor :internal
 
     def initialize(*args, &block)
       super(*args, &block)
-      if RightScale::Api::api0_1?
+      if RestConnection::RightScale::Api::api0_1?
         @internal = ServerTemplateInternal.new(*args, &block)
       end
     end

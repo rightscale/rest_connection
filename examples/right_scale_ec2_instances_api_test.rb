@@ -28,7 +28,7 @@ require '/var/spool/ec2/user-data'
 
 describe Instance, "run this from an ec2_instance" do
   before(:all) do
-    @this_instance = RightScale::Instance.new
+    @this_instance = RestConnection::RightScale::Instance.new
     @this_instance.connection.settings[:api_url] = ENV['RS_API_URL']
     @this_instance.connection.settings[:common_headers] = { 'X_API_VERSION' => '1.0' }
     # when tests fail, we need this to ensure a fresh run

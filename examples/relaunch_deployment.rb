@@ -34,12 +34,11 @@ opts = Trollop::options do
   opt :id, "deployment id", :type => :string, :required => false
 end
 
-debugger
 # find all servers in the deployment (the fast way)
 if opts[:id]
-  deployment = RightScale::Deployment.find(opts[:id].to_i)
+  deployment = RestConnection::RightScale::Deployment.find(opts[:id])
 else
-  deployment = RightScale::Deployment.find_by_nickname_speed(opts[:deployment]).first
+  deployment = RestConnection::RightScale::Deployment.find_by_nickname_speed(opts[:deployment]).first
 end
 servers = deployment.servers_no_reload
 servers = servers.select { |s| s.nickname =~ /#{opts[:only]}/ } if opts[:only]

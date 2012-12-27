@@ -33,10 +33,10 @@
 #  end
 #end
 
-module RightScale
+module RestConnection::RightScale
   class AuditEntry
-    include  RightScale::Api::Base
-    extend RightScale::Api::BaseExtend
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
 
     deny_methods :index, :create, :destroy, :update
 

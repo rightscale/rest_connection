@@ -25,15 +25,15 @@ require 'rubygems'
 require 'rest_connection'
 require 'ruby-debug'
 
-describe RightScale::Ec2SshKeyInternal, "ec2_ssh_key internal api object exercise" do
+describe RestConnection::RightScale::Ec2SshKeyInternal, "ec2_ssh_key internal api object exercise" do
   before(:all) do
   end
 
   it "should find an index of all ssh keys" do
-    all_keys = RightScale::Ec2SshKeyInternal.find(:all)
+    all_keys = RestConnection::RightScale::Ec2SshKeyInternal.find(:all)
     all_keys.empty?.should == false
 
-    default_key = RightScale::Ec2SshKeyInternal.find_by(:aws_key_name) {|n| n=~ /default/}
+    default_key = RestConnection::RightScale::Ec2SshKeyInternal.find_by(:aws_key_name) {|n| n=~ /default/}
     default_key.first.should_not == nil
 
     default_key.first.href.should_not == nil

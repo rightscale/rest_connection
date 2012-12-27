@@ -24,10 +24,10 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RightScale
+module RestConnection::RightScale
   class CloudAccount
-    include RightScale::Api::Gateway
-    extend RightScale::Api::GatewayExtend
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
     deny_methods :update
 

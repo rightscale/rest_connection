@@ -22,7 +22,7 @@
 #++
 
 # Hash Extensions
-module RightScale
+module RestConnection
   class Hash < ::Hash
     # Merges self with another second, recursively.
     #
@@ -116,7 +116,7 @@ module RightScale
         second.times { |i| ret += dup }
         return ret
       elsif second.is_a?(::Array)
-        ret = RightScale::Array.new
+        ret = RestConnection::Array.new
         each { |x| second.each { |y| ret << [x,y].flatten } }
         return ret
       else
@@ -128,7 +128,7 @@ module RightScale
       if second.is_a?(::Integer)
         ret = dup
         (second - 1).times {
-          temp = RightScale::Array.new
+          temp = RestConnection::Array.new
           ret.each { |x| each { |y| temp << [x,y].flatten } }
           ret = temp
         }

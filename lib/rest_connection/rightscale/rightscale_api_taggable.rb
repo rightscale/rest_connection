@@ -21,7 +21,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RightScale
+module RestConnection::RightScale
   module Api
     module Taggable
       def add_tags(*args)
@@ -40,8 +40,8 @@ module RightScale
       def tags(reload=false)
         @params["tags"] ||= []
         @params["tags"].map! { |item| item.is_a?(Hash) ? item["name"] : item }
-        # Make a RightScale::Array so we can use #deep_merge!
-        @params["tags"] = RightScale::Array.new.deep_merge!(@params["tags"])
+        # Make a RestConnection::Array so we can use #deep_merge!
+        @params["tags"] = RestConnection::Array.new.deep_merge!(@params["tags"])
         @params["tags"].deep_merge!(Tag.search_by_href(self.href).map { |hsh| hsh["name"] }) if reload or @params["tags"].empty?
         @params["tags"]
       end

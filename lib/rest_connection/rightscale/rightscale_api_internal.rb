@@ -21,7 +21,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RightScale
+module RestConnection::RightScale
   module Api
     module InternalConnection
       def connection(*opts)
@@ -42,11 +42,11 @@ module RightScale
     end
 
     module Internal
-      include RightScale::Api::InternalConnection
+      include RestConnection::RightScale::Api::InternalConnection
     end
 
     module InternalExtend
-      include RightScale::Api::InternalConnection
+      include RestConnection::RightScale::Api::InternalConnection
     end
   end
 end

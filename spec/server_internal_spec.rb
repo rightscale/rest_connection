@@ -25,12 +25,12 @@ require 'rubygems'
 require 'rest_connection'
 require 'ruby-debug'
 
-describe RightScale::ServerInternal, "server internal api object exercise" do
+describe RestConnection::RightScale::ServerInternal, "server internal api object exercise" do
   before(:all) do
   end
 
   it "should find an internal server" do
-    @server = RightScale::Server.find(745582)
+    @server = RestConnection::RightScale::Server.find(745582)
 #    @server.start
 #    @server.wait_for_state("operational")
     @server.stop_ebs

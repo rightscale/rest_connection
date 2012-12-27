@@ -25,12 +25,12 @@ require 'rubygems'
 require 'rest_connection'
 require 'ruby-debug'
 
-describe RightScale::Server, "using a server" do
+describe RestConnection::RightScale::Server, "using a server" do
   before(:all) do
   end
 
   it "should use method_missing for assignment" do
-    @server = RightScale::Server.find(37842) # hardcoded, you must change to valid server in your account
+    @server = RestConnection::RightScale::Server.find(37842) # hardcoded, you must change to valid server in your account
     @server.max_spot_price = "0.01"
     @server.pricing = "spot"
     @server.save

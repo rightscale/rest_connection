@@ -21,13 +21,13 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RightScale
+module RestConnection::RightScale
   class Server
-    include RightScale::Api::Base
-    extend RightScale::Api::BaseExtend
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
     include SshHax
-    include RightScale::Api::Taggable
-    extend RightScale::Api::TaggableExtend
+    include RestConnection::RightScale::Api::Taggable
+    extend RestConnection::RightScale::Api::TaggableExtend
 
     attr_accessor :internal
 
@@ -58,7 +58,7 @@ module RightScale
 
     def initialize(*args, &block)
       super(*args, &block)
-      if RightScale::Api::api0_1?
+      if RestConnection::RightScale::Api::api0_1?
         @internal = ServerInternal.new(*args, &block)
       end
     end
@@ -356,10 +356,10 @@ module RightScale
       if self.state == "operational"
         return self["cloud_id"]
       end
-      cloud_ids = RightScale::Api::AWS_CLOUDS.map { |hsh| hsh["cloud_id"] }
+      cloud_ids = RestConnection::RightScale::Api::AWS_CLOUDS.map { |hsh| hsh["cloud_id"] }
 
       # Try ssh keys
-      if self.ec2_ssh_key_href and RightScale::Api::api0_1?
+      if self.ec2_ssh_key_href and RestConnection::RightScale::Api::api0_1?
         ref = self.ec2_ssh_key_href
         cloud_ids.each { |cloud|
           if Ec2SshKeyInternal.find_by_cloud_id(cloud.to_s).select { |o| o.href == ref }.first
@@ -461,7 +461,7 @@ module RightScale
     end
 
     def clear_tags(namespace = nil)
-      tags = RightScale::Array.new
+      tags = RestConnection::Array.new
       tags.deep_merge! self.tags(true)
       tags.deep_merge! self.current_tags if self.current_instance_href
       tags = tags.select { |tag| tag.start_with?("#{namespace}:") } if namespace

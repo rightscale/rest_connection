@@ -21,7 +21,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RightScale
+module RestConnection::RightScale
   module Api
     GATEWAY_COOKIE_REFRESH = proc do
       def refresh_cookie
@@ -65,8 +65,8 @@ module RightScale
     end
 
     module Gateway
-      include RightScale::Api::Base
-      include RightScale::Api::GatewayConnection
+      include RestConnection::RightScale::Api::Base
+      include RestConnection::RightScale::Api::GatewayConnection
 
       def initialize(params = {})
         @params = parse_params(params)
@@ -209,8 +209,8 @@ module RightScale
     end
 
     module GatewayExtend
-      include RightScale::Api::BaseExtend
-      include RightScale::Api::GatewayConnection
+      include RestConnection::RightScale::Api::BaseExtend
+      include RestConnection::RightScale::Api::GatewayConnection
 
       def find_by(attrib, *args, &block)
         attrib = attrib.to_sym

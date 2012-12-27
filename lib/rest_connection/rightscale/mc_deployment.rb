@@ -24,13 +24,13 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RightScale
+module RestConnection::RightScale
   class McDeployment
-    include RightScale::Api::Gateway
-    extend RightScale::Api::GatewayExtend
-    include RightScale::Api::McTaggable
-    extend RightScale::Api::McTaggableExtend
-    include RightScale::Api::McInput
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
+    include RestConnection::RightScale::Api::McTaggable
+    extend RestConnection::RightScale::Api::McTaggableExtend
+    include RestConnection::RightScale::Api::McInput
 
     def resource_plural_name
       "deployments"

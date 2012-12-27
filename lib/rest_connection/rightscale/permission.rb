@@ -29,10 +29,10 @@
 # Permission Resource requires "admin" role
 #
 
-module RightScale
+module RestConnection::RightScale
   class Permission
-    include RightScale::Api::Gateway
-    extend RightScale::Api::GatewayExtend
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
     deny_methods :update
 
