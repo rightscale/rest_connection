@@ -21,34 +21,36 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class MultiCloudImageCloudSettingInternal
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
-  include RightScale::Api::Internal
-  extend RightScale::Api::InternalExtend
+module RestConnection::RightScale
+  class MultiCloudImageCloudSettingInternal
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
+    include RestConnection::RightScale::Api::Internal
+    extend RestConnection::RightScale::Api::InternalExtend
 
-  deny_methods :index, :show, :update
+    deny_methods :index, :show, :update
 
-  def resource_plural_name
-    "multi_cloud_image_cloud_settings"
+    def resource_plural_name
+      "multi_cloud_image_cloud_settings"
+    end
+
+    def resource_singular_name
+      "multi_cloud_image_cloud_setting"
+    end
+
+    def self.resource_plural_name
+      "multi_cloud_image_cloud_settings"
+    end
+
+    def self.resource_singular_name
+      "multi_cloud_image_cloud_setting"
+    end
+
+    # override create method, with no reload
+    def self.create(opts)
+      location = connection.post(self.resource_plural_name, self.resource_singular_name.to_sym => opts)
+      newrecord = self.new('href' => location)
+    end
+
   end
-
-  def resource_singular_name
-    "multi_cloud_image_cloud_setting"
-  end
-
-  def self.resource_plural_name
-    "multi_cloud_image_cloud_settings"
-  end
-
-  def self.resource_singular_name
-    "multi_cloud_image_cloud_setting"
-  end
-
-  # override create method, with no reload
-  def self.create(opts)
-    location = connection.post(self.resource_plural_name, self.resource_singular_name.to_sym => opts)
-    newrecord = self.new('href' => location)
-  end
-
 end

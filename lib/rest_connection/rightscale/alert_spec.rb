@@ -21,11 +21,13 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class AlertSpec
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RestConnection::RightScale
+  class AlertSpec
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
 
-  def attach(params)
-    AlertSpecSubject.create(params)
+    def attach(params)
+      AlertSpecSubject.create(params)
+    end
   end
 end

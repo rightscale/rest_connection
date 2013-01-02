@@ -21,7 +21,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class VpcDhcpOption
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RestConnection::RightScale
+  class VpcDhcpOption
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
+  end
 end

@@ -24,10 +24,10 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RightScale
+module RestConnection::RightScale
   module Api
     module McTaggable
-      include RightScale::Api::Taggable
+      include RestConnection::RightScale::Api::Taggable
       def add_tags(*args)
         return false if args.empty?
         McTag.set(self.href, args.uniq)
@@ -44,6 +44,8 @@ module RightScale
       def tags(reload=false)
         @params["tags"] ||= []
         @params["tags"].map! { |item| item.is_a?(Hash) ? item["name"] : item }
+        # Make a RestConnection::Array so we can use #deep_merge!
+        @params["tags"] = RestConnection::Array.new.deep_merge!(@params["tags"])
         @params["tags"].deep_merge!(McTag.search_by_href(self.href).first["tags"].map { |hsh| hsh["name"] }) if reload or @params["tags"].empty?
         @params["tags"]
       end

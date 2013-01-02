@@ -24,57 +24,59 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McMultiCloudImage
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
-  include RightScale::Api::McTaggable
-  extend RightScale::Api::McTaggableExtend
+module RestConnection::RightScale
+  class McMultiCloudImage
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
+    include RestConnection::RightScale::Api::McTaggable
+    extend RestConnection::RightScale::Api::McTaggableExtend
 
-  deny_methods :update #supported in API, not imp'd in code yet
+    deny_methods :update #supported in API, not imp'd in code yet
 
-  def resource_plural_name
-    "multi_cloud_images"
+    def resource_plural_name
+      "multi_cloud_images"
+    end
+
+    def resource_singular_name
+      "multi_cloud_image"
+    end
+
+    def self.resource_plural_name
+      "multi_cloud_images"
+    end
+
+    def self.resource_singular_name
+      "multi_cloud_image"
+    end
+
+    def self.parse_args(server_template_id=nil)
+      server_template_id ? "server_templates/#{server_template_id}/" : ""
+    end
+
+    def self.filters
+      [:description, :name, :revision]
+    end
+
+    def supported_cloud_ids
+      settings.map { |mcics| mcics.cloud_id }
+    end
+
+    def reload
+      @settings = nil
+      super
+    end
+
+    # Note, only returns API 1.5 clouds, API 1.0 omitted
+    def settings
+      return @settings if @settings
+      @settings = []
+      url = URI.parse(self.href)
+      connection.get(url.path + '/settings').each { |s|
+        @settings << McMultiCloudImageSetting.new(s)
+      }
+      @settings
+    end
+    def get_settings; settings; end
+
   end
-
-  def resource_singular_name
-    "multi_cloud_image"
-  end
-
-  def self.resource_plural_name
-    "multi_cloud_images"
-  end
-
-  def self.resource_singular_name
-    "multi_cloud_image"
-  end
-
-  def self.parse_args(server_template_id=nil)
-    server_template_id ? "server_templates/#{server_template_id}/" : ""
-  end
-
-  def self.filters
-    [:description, :name, :revision]
-  end
-
-  def supported_cloud_ids
-    settings.map { |mcics| mcics.cloud_id }
-  end
-
-  def reload
-    @settings = nil
-    super
-  end
-
-  # Note, only returns API 1.5 clouds, API 1.0 omitted
-  def settings
-    return @settings if @settings
-    @settings = []
-    url = URI.parse(self.href)
-    connection.get(url.path + '/settings').each { |s|
-      @settings << McMultiCloudImageSetting.new(s)
-    }
-    @settings
-  end
-  def get_settings; settings; end
-
 end

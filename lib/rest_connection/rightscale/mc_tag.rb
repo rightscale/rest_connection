@@ -24,56 +24,58 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McTag
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RestConnection::RightScale
+  class McTag
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
-  deny_methods :index, :show, :create, :destroy, :update
+    deny_methods :index, :show, :create, :destroy, :update
 
-  def resource_plural_name
-    "tags"
-  end
+    def resource_plural_name
+      "tags"
+    end
 
-  def resource_singular_name
-    "tag"
-  end
+    def resource_singular_name
+      "tag"
+    end
 
-  def self.resource_plural_name
-    "tags"
-  end
+    def self.resource_plural_name
+      "tags"
+    end
 
-  def self.resource_singular_name
-    "tag"
-  end
+    def self.resource_singular_name
+      "tag"
+    end
 
-  def self.search(resource_name, tags, opts=nil) #, include_tags_with_prefix = false)
-    parameters = { :resource_type => resource_name.to_s, :tags => tags }
-    parameters.merge!(opts) unless opts.nil?
-    result = connection.post("tags/by_tag", parameters)
-  end
+    def self.search(resource_name, tags, opts=nil) #, include_tags_with_prefix = false)
+      parameters = { :resource_type => resource_name.to_s, :tags => tags }
+      parameters.merge!(opts) unless opts.nil?
+      result = connection.post("tags/by_tag", parameters)
+    end
 
-  def self.search_by_href(*resource_hrefs)
-    connection.post("tags/by_resource", :resource_hrefs => resource_hrefs)
-  end
-  #TAGGABLE_RESOURCES = [ 'Server', 'Ec2EbsSnapshot', 'Ec2EbsVolume', 'Ec2Image', 'Image', 'ServerArray', 'Ec2Instance',
-  #                        'Instance', 'Deployment', 'ServerTemplate', 'Ec2ServerTemplate' ]
-  #
-  # Tag.set( resource_href, tags ) where tags is an array of tags to set on the resource.
-  def self.multi_add(resource_hrefs, tags)
-    resource_hrefs = [resource_hrefs] unless resource_hrefs.is_a?(Array)
-    connection.post("tags/multi_add", :resource_hrefs => resource_hrefs, :tags => tags)
-  end
+    def self.search_by_href(*resource_hrefs)
+      connection.post("tags/by_resource", :resource_hrefs => resource_hrefs)
+    end
+    #TAGGABLE_RESOURCES = [ 'Server', 'Ec2EbsSnapshot', 'Ec2EbsVolume', 'Ec2Image', 'Image', 'ServerArray', 'Ec2Instance',
+    #                        'Instance', 'Deployment', 'ServerTemplate', 'Ec2ServerTemplate' ]
+    #
+    # Tag.set( resource_href, tags ) where tags is an array of tags to set on the resource.
+    def self.multi_add(resource_hrefs, tags)
+      resource_hrefs = [resource_hrefs] unless resource_hrefs.is_a?(Array)
+      connection.post("tags/multi_add", :resource_hrefs => resource_hrefs, :tags => tags)
+    end
 
-  def self.set(resource_hrefs, tags)
-    self.multi_add(resource_hrefs, tags)
-  end
+    def self.set(resource_hrefs, tags)
+      self.multi_add(resource_hrefs, tags)
+    end
 
-  def self.multi_delete(resource_hrefs, tags)
-    resource_hrefs = [resource_hrefs] unless resource_hrefs.is_a?(Array)
-    connection.post("tags/multi_delete", :resource_hrefs => resource_hrefs, :tags => tags)
-  end
+    def self.multi_delete(resource_hrefs, tags)
+      resource_hrefs = [resource_hrefs] unless resource_hrefs.is_a?(Array)
+      connection.post("tags/multi_delete", :resource_hrefs => resource_hrefs, :tags => tags)
+    end
 
-  def self.unset(resource_hrefs, tags)
-    self.multi_delete(resource_hrefs, tags)
+    def self.unset(resource_hrefs, tags)
+      self.multi_delete(resource_hrefs, tags)
+    end
   end
 end

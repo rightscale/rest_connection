@@ -24,46 +24,48 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class Session
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RestConnection::RightScale
+  class Session
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
-  deny_methods :index, :destroy, :update, :show
+    deny_methods :index, :destroy, :update, :show
 
-  def self.index
-    self.new(connection.get(resource_singular_name))
-  end
-
-  def self.create(opts={})
-    settings = connection.settings
-    ignored, account = settings[:api_url].split(/\/acct\//) if settings[:api_url].include?("acct")
-    params = {
-      "email" => settings[:user],
-      "password" => settings[:pass],
-      "account_href" => "/api/accounts/#{account}"
-    }.merge(opts)
-    resp = connection.post(resource_singular_name, params)
-    connection.cookie = resp.response['set-cookie']
-  end
-
-  def self.accounts(opts={})
-    settings = connection.settings
-    params = {
-      "email" => settings[:user],
-      "password" => settings[:pass],
-    }.merge(opts)
-    a = Array.new
-    connection.get(resource_singular_name + "/accounts").each do |object|
-      a << Account.new(object)
+    def self.index
+      self.new(connection.get(resource_singular_name))
     end
-    return a
-  end
 
-  def self.create_instance_session
-    # TODO
-  end
+    def self.create(opts={})
+      settings = connection.settings
+      ignored, account = settings[:api_url].split(/\/acct\//) if settings[:api_url].include?("acct")
+      params = {
+        "email" => settings[:user],
+        "password" => settings[:pass],
+        "account_href" => "/api/accounts/#{account}"
+      }.merge(opts)
+      resp = connection.post(resource_singular_name, params)
+      connection.cookie = resp.response['set-cookie']
+    end
 
-  def self.index_instance_session
-    # TODO
+    def self.accounts(opts={})
+      settings = connection.settings
+      params = {
+        "email" => settings[:user],
+        "password" => settings[:pass],
+      }.merge(opts)
+      a = Array.new
+      connection.get(resource_singular_name + "/accounts").each do |object|
+        a << Account.new(object)
+      end
+      return a
+    end
+
+    def self.create_instance_session
+      # TODO
+    end
+
+    def self.index_instance_session
+      # TODO
+    end
   end
 end

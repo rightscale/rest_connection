@@ -21,25 +21,27 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class S3Bucket
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RestConnection::RightScale
+  class S3Bucket
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def self.resource_singular_name
-    "s3_bucket"
-  end
+    def self.resource_singular_name
+      "s3_bucket"
+    end
 
-  def self.resource_plural_name
-    "s3_buckets"
-  end
+    def self.resource_plural_name
+      "s3_buckets"
+    end
 
-  def resource_singular_name
-    "s3_bucket"
-  end
+    def resource_singular_name
+      "s3_bucket"
+    end
 
-  def resource_plural_name
-    "s3_buckets"
+    def resource_plural_name
+      "s3_buckets"
+    end
   end
 end

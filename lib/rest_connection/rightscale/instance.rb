@@ -24,32 +24,34 @@
 # This is an instance facing api and can only be used with
 # an authentication URL normally found in the instance's userdata called
 # RS_API_URL
-class Instance
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
-  include RightScale::Api::Taggable
-  extend RightScale::Api::TaggableExtend
-  #def create_ebs_volume_from_snap(snap_aws_id)
-  #  connection.post('create_ebs_volume.js', :aws_id => snap_aws_id )
-  #end
+module RestConnection::RightScale
+  class Instance
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
+    include RestConnection::RightScale::Api::Taggable
+    extend RestConnection::RightScale::Api::TaggableExtend
+    #def create_ebs_volume_from_snap(snap_aws_id)
+    #  connection.post('create_ebs_volume.js', :aws_id => snap_aws_id )
+    #end
 
-  def attach_ebs_volume(params)
-    connection.put('attach_ebs_volume.js', params)
-  end
+    def attach_ebs_volume(params)
+      connection.put('attach_ebs_volume.js', params)
+    end
 
-  def create_ebs_snapshot(params)
-    connection.post('create_ebs_snapshot.js', params)
-  end
+    def create_ebs_snapshot(params)
+      connection.post('create_ebs_snapshot.js', params)
+    end
 
-  def detach_ebs_volume(params)
-    connection.put('detach_ebs_volume.js', params)
-  end
+    def detach_ebs_volume(params)
+      connection.put('detach_ebs_volume.js', params)
+    end
 
-  def delete_ebs_volume(params)
-    connection.delete('delete_ebs_volume.js', params)
-  end
+    def delete_ebs_volume(params)
+      connection.delete('delete_ebs_volume.js', params)
+    end
 
-  def create_ebs_volume(params)
-    connection.post('create_ebs_volume.js', params)
+    def create_ebs_volume(params)
+      connection.post('create_ebs_volume.js', params)
+    end
   end
 end

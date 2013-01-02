@@ -24,16 +24,18 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class SecurityGroupRule
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RestConnection::RightScale
+  class SecurityGroupRule
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def self.parse_args(cloud_id=nil, security_group_id=nil)
-    if cloud_id.nil? ^ security_group_id.nil?
-      raise ArgumentError.new("#{self} requires either 0 arguments, or 2 arguments")
+    def self.parse_args(cloud_id=nil, security_group_id=nil)
+      if cloud_id.nil? ^ security_group_id.nil?
+        raise ArgumentError.new("#{self} requires either 0 arguments, or 2 arguments")
+      end
+      "clouds/#{cloud_id}/security_groups/#{security_group_id}/"
     end
-    "clouds/#{cloud_id}/security_groups/#{security_group_id}/"
   end
 end

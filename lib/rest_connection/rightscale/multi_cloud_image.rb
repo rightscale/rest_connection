@@ -21,36 +21,38 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class MultiCloudImage
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RestConnection::RightScale
+  class MultiCloudImage
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
 
-  deny_methods :create, :destroy, :update
+    deny_methods :create, :destroy, :update
 
-  attr_accessor :internal
+    attr_accessor :internal
 
-  def supported_cloud_ids
-    @params["multi_cloud_image_cloud_settings"].map { |mcics| mcics.cloud_id }
-  end
-
-  # You must have access to multiple APIs for this (0.1, and 1.5)
-  def find_and_flatten_settings()
-    internal = MultiCloudImageInternal.new("href" => self.href)
-    internal.reload
-    total_image_count = internal.multi_cloud_image_cloud_settings.size
-    # The .settings call filters out non-ec2 images
-    more_settings = []
-    if total_image_count > internal.settings.size
-      more_settings = McMultiCloudImage.find(rs_id.to_i).settings
+    def supported_cloud_ids
+      @params["multi_cloud_image_cloud_settings"].map { |mcics| mcics.cloud_id }
     end
-    @params["multi_cloud_image_cloud_settings"] = internal.settings + more_settings
-  end
 
-  def initialize(*args, &block)
-    super(*args, &block)
-    if RightScale::Api::api0_1?
-      @internal = MultiCloudImageInternal.new(*args, &block)
+    # You must have access to multiple APIs for this (0.1, and 1.5)
+    def find_and_flatten_settings()
+      internal = MultiCloudImageInternal.new("href" => self.href)
+      internal.reload
+      total_image_count = internal.multi_cloud_image_cloud_settings.size
+      # The .settings call filters out non-ec2 images
+      more_settings = []
+      if total_image_count > internal.settings.size
+        more_settings = McMultiCloudImage.find(rs_id.to_i).settings
+      end
+      @params["multi_cloud_image_cloud_settings"] = internal.settings + more_settings
     end
-  end
 
+    def initialize(*args, &block)
+      super(*args, &block)
+      if RestConnection::RightScale::Api::api0_1?
+        @internal = MultiCloudImageInternal.new(*args, &block)
+      end
+    end
+
+  end
 end

@@ -24,24 +24,26 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class CloudAccount
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RestConnection::RightScale
+  class CloudAccount
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def cloud_id
-    self.cloud.split("/").last
-  end
+    def cloud_id
+      self.cloud.split("/").last
+    end
 
-  def create(opts)
-    location = connection.post(self.resource_plural_name, self.resource_singular_name.to_sym => opts)
-    if location =~ /aws/
-      return "AWS Cloud Added successfully"
-    else
-      newrecord = self.new('links' => [ {'rel' => 'self', 'href' => location } ])
-      newrecord.reload
-      return newrecord
+    def create(opts)
+      location = connection.post(self.resource_plural_name, self.resource_singular_name.to_sym => opts)
+      if location =~ /aws/
+        return "AWS Cloud Added successfully"
+      else
+        newrecord = self.new('links' => [ {'rel' => 'self', 'href' => location } ])
+        newrecord.reload
+        return newrecord
+      end
     end
   end
 end

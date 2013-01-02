@@ -277,10 +277,10 @@ module RestConnection
 
     # recursive method builds CGI escaped strings from Hashes, Arrays and strings of parameters.
     def requestify(parameters, prefix=nil)
-      if Hash === parameters
+      if ::Hash === parameters
         return nil if parameters.empty?
         parameters.map { |k,v| requestify(v, name_with_prefix(prefix, k)) }.join("&")
-      elsif Array === parameters
+      elsif ::Array === parameters
         parameters.map { |v| requestify(v, name_with_prefix(prefix, "")) }.join("&")
       elsif prefix.nil?
         parameters

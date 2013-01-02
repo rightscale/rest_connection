@@ -24,39 +24,41 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class McVolumeAttachment
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RestConnection::RightScale
+  class McVolumeAttachment
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
-  deny_methods :update
+    deny_methods :update
 
-  def resource_plural_name
-    "volume_attachments"
-  end
+    def resource_plural_name
+      "volume_attachments"
+    end
 
-  def resource_singular_name
-    "volume_attachment"
-  end
+    def resource_singular_name
+      "volume_attachment"
+    end
 
-  def self.resource_plural_name
-    "volume_attachments"
-  end
+    def self.resource_plural_name
+      "volume_attachments"
+    end
 
-  def self.resource_singular_name
-    "volume_attachment"
-  end
+    def self.resource_singular_name
+      "volume_attachment"
+    end
 
-  def self.parse_args(cloud_id, instance_id=nil)
-    return "clouds/#{cloud_id}/" unless instance_id
-    return "clouds/#{cloud_id}/volumes/#{instance_id}/" if instance_id
-  end
+    def self.parse_args(cloud_id, instance_id=nil)
+      return "clouds/#{cloud_id}/" unless instance_id
+      return "clouds/#{cloud_id}/volumes/#{instance_id}/" if instance_id
+    end
 
-  def self.filters
-    [:instance_href, :resource_uid, :volume_href]
-  end
+    def self.filters
+      [:instance_href, :resource_uid, :volume_href]
+    end
 
-  def show
-    inst_href = URI.parse(self.href)
-    @params.merge! connection.get(inst_href.path)
+    def show
+      inst_href = URI.parse(self.href)
+      @params.merge! connection.get(inst_href.path)
+    end
   end
 end

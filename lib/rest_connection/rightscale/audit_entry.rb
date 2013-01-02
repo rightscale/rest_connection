@@ -33,27 +33,29 @@
 #  end
 #end
 
-class AuditEntry
-  include  RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RestConnection::RightScale
+  class AuditEntry
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
 
-  deny_methods :index, :create, :destroy, :update
+    deny_methods :index, :create, :destroy, :update
 
-  def wait_for_state(state, timeout=900)
-    while(timeout > 0)
-      reload
-      return true if state == self.state
-      connection.logger("state is #{self.state}, waiting for #{state}")
-      friendly_url = "https://my.rightscale.com/audit_entries/"
-      friendly_url += self.href.split(/\//).last
-      raise "FATAL error, #{self.summary}\nSee Audit: API:#{self.href}, WWW:<a href='#{friendly_url}'>#{friendly_url}</a>\n" if self.state == 'failed'
-      sleep 30
-      timeout -= 30
+    def wait_for_state(state, timeout=900)
+      while(timeout > 0)
+        reload
+        return true if state == self.state
+        connection.logger("state is #{self.state}, waiting for #{state}")
+        friendly_url = "https://my.rightscale.com/audit_entries/"
+        friendly_url += self.href.split(/\//).last
+        raise "FATAL error, #{self.summary}\nSee Audit: API:#{self.href}, WWW:<a href='#{friendly_url}'>#{friendly_url}</a>\n" if self.state == 'failed'
+        sleep 30
+        timeout -= 30
+      end
+      raise "FATAL: Timeout waiting for Executable to complete.  State was #{self.state}" if timeout <= 0
     end
-    raise "FATAL: Timeout waiting for Executable to complete.  State was #{self.state}" if timeout <= 0
-  end
 
-  def wait_for_completed(timeout=900)
-    wait_for_state("completed", timeout)
+    def wait_for_completed(timeout=900)
+      wait_for_state("completed", timeout)
+    end
   end
 end

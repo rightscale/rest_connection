@@ -21,7 +21,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RightScale
+module RestConnection::RightScale
   module Api
     module InternalConnection
       def connection(*opts)
@@ -32,7 +32,7 @@ module RightScale
         settings[:extension] = ".js"
 
         unless @@little_brother_connection.respond_to?(:refresh_cookie)
-          @@little_brother_connection.instance_exec(&(RightScale::Api::BASE_COOKIE_REFRESH))
+          @@little_brother_connection.instance_exec(&(RestConnection::RightScale::Api::BASE_COOKIE_REFRESH))
         end
 
         @@little_brother_connection.refresh_cookie unless @@little_brother_connection.cookie
@@ -42,11 +42,11 @@ module RightScale
     end
 
     module Internal
-      include RightScale::Api::InternalConnection
+      include RestConnection::RightScale::Api::InternalConnection
     end
 
     module InternalExtend
-      include RightScale::Api::InternalConnection
+      include RestConnection::RightScale::Api::InternalConnection
     end
   end
 end

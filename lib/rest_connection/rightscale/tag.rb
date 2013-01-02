@@ -21,30 +21,32 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Tag
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RestConnection::RightScale
+  class Tag
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
 
-  deny_methods :index, :create, :destroy, :update, :show
+    deny_methods :index, :create, :destroy, :update, :show
 
-  def self.search(resource_name, tags, opts=nil)
-    parameters = { :resource_type => resource_name.to_s, :tags => tags }
-    parameters.merge!(opts) unless opts.nil?
-    result = connection.get("tags/search", parameters)
-  end
+    def self.search(resource_name, tags, opts=nil)
+      parameters = { :resource_type => resource_name.to_s, :tags => tags }
+      parameters.merge!(opts) unless opts.nil?
+      result = connection.get("tags/search", parameters)
+    end
 
-  def self.search_by_href(resource_href)
-      connection.get("tags/search", :resource_href => resource_href)
-  end
-  #TAGGABLE_RESOURCES = [ 'Server', 'Ec2EbsSnapshot', 'Ec2EbsVolume', 'Ec2Image', 'Image', 'ServerArray', 'Ec2Instance',
-  #                        'Instance', 'Deployment', 'ServerTemplate', 'Ec2ServerTemplate' ]
-  #
-  # Tag.set( resource_href, tags ) where tags is an array of tags to set on the resource.
-  def self.set(resource_href, tags)
-    connection.put("tags/set", :resource_href => resource_href, :tags => tags)
-  end
+    def self.search_by_href(resource_href)
+        connection.get("tags/search", :resource_href => resource_href)
+    end
+    #TAGGABLE_RESOURCES = [ 'Server', 'Ec2EbsSnapshot', 'Ec2EbsVolume', 'Ec2Image', 'Image', 'ServerArray', 'Ec2Instance',
+    #                        'Instance', 'Deployment', 'ServerTemplate', 'Ec2ServerTemplate' ]
+    #
+    # Tag.set( resource_href, tags ) where tags is an array of tags to set on the resource.
+    def self.set(resource_href, tags)
+      connection.put("tags/set", :resource_href => resource_href, :tags => tags)
+    end
 
-  def self.unset(resource_href, tags)
-    connection.put("tags/unset", :resource_href => resource_href, :tags => tags)
+    def self.unset(resource_href, tags)
+      connection.put("tags/unset", :resource_href => resource_href, :tags => tags)
+    end
   end
 end

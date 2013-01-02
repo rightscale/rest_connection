@@ -26,18 +26,20 @@
 
 #This is the v4 image only work status api.
 # was used by Server#run_script (depricating..)
-class Status
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
-  def wait_for_completed(audit_link = "no audit link available", timeout = 900)
-    while(timeout > 0)
-      reload
-      return true if self.state == "completed"
-      raise "FATAL error, script failed\nSee Audit: #{audit_link}" if self.state == 'failed'
-      sleep 30
-      timeout -= 30
-      connection.logger("querying status of right_script.. got: #{self.state}")
+module RestConnection::RightScale
+  class Status
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
+    def wait_for_completed(audit_link = "no audit link available", timeout = 900)
+      while(timeout > 0)
+        reload
+        return true if self.state == "completed"
+        raise "FATAL error, script failed\nSee Audit: #{audit_link}" if self.state == 'failed'
+        sleep 30
+        timeout -= 30
+        connection.logger("querying status of right_script.. got: #{self.state}")
+      end
+      raise "FATAL: Timeout waiting for Executable to complete.  State was #{self.state}" if timeout <= 0
     end
-    raise "FATAL: Timeout waiting for Executable to complete.  State was #{self.state}" if timeout <= 0
   end
 end

@@ -24,25 +24,27 @@
 #
 # You must have special API access to use these internal API calls.
 #
-class RsInternal
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
-  extend ::RightScale::Api::InternalConnection
+module RestConnection::RightScale
+  class RsInternal
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
+    extend ::RestConnection::RightScale::Api::InternalConnection
 
-  def connection
-    self.connection
-  end
+    def connection
+      self.connection
+    end
 
-  def self.connection
-    # call connection defined in InternalConnection module
-    super
-  end
+    def self.connection
+      # call connection defined in InternalConnection module
+      super
+    end
 
-  def self.get_server_template_multi_cloud_images(server_template_href)
-    connection.get("rs_internal/get_server_template_multi_cloud_images","server_template_href=#{server_template_href}")
-  end
+    def self.get_server_template_multi_cloud_images(server_template_href)
+      connection.get("rs_internal/get_server_template_multi_cloud_images","server_template_href=#{server_template_href}")
+    end
 
-  def self.set_server_multi_cloud_image(server_href, mci_href)
-    connection.put("rs_internal/set_server_multi_cloud_image", {:server_href => server_href, :multi_cloud_image_href => mci_href})
+    def self.set_server_multi_cloud_image(server_href, mci_href)
+      connection.put("rs_internal/set_server_multi_cloud_image", {:server_href => server_href, :multi_cloud_image_href => mci_href})
+    end
   end
 end

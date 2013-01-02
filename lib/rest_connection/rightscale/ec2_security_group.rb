@@ -21,40 +21,42 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class Ec2SecurityGroup
-  include RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
+module RestConnection::RightScale
+  class Ec2SecurityGroup
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
 
-  VALID_RULE_TYPES =  [
-                        [:group, :owner],
-                        [:cidr_ips, :from_port, :protocol, :to_port],
-                        [:from_port, :group, :owner, :protocol, :to_port],
-                      ]
+    VALID_RULE_TYPES =  [
+                          [:group, :owner],
+                          [:cidr_ips, :from_port, :protocol, :to_port],
+                          [:from_port, :group, :owner, :protocol, :to_port],
+                        ]
 
-  # NOTE - Create, Destroy, and Update require "security_manager" permissions
-  # NOTE - Can't remove rules, can only add
-  def add_rule(opts={})
-    rule = {}
-    opts.each { |k,v| rule["#{k}".to_sym] = v }    
+    # NOTE - Create, Destroy, and Update require "security_manager" permissions
+    # NOTE - Can't remove rules, can only add
+    def add_rule(opts={})
+      rule = {}
+      opts.each { |k,v| rule["#{k}".to_sym] = v }    
 
-    unless validate_rule(rule)
-      raise ArgumentError.new("add_rule expects one of these valid rule types: #{VALID_RULE_TYPES.to_json}")
-    end
-
-    params = {:ec2_security_group => rule}
-    uri = URI.parse(self.href)
-    connection.put(uri.path, params)
-
-    self.reload
-  end
-
-  def validate_rule(rule)
-    VALID_RULE_TYPES.each do |valid_rule_type|
-      if rule.keys.sort_by {|sym| sym.to_s} == valid_rule_type.sort_by {|sym| sym.to_s}
-        return true
+      unless validate_rule(rule)
+        raise ArgumentError.new("add_rule expects one of these valid rule types: #{VALID_RULE_TYPES.to_json}")
       end
+
+      params = {:ec2_security_group => rule}
+      uri = URI.parse(self.href)
+      connection.put(uri.path, params)
+
+      self.reload
     end
 
-    false
+    def validate_rule(rule)
+      VALID_RULE_TYPES.each do |valid_rule_type|
+        if rule.keys.sort_by {|sym| sym.to_s} == valid_rule_type.sort_by {|sym| sym.to_s}
+          return true
+        end
+      end
+
+      false
+    end
   end
 end

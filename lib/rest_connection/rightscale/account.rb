@@ -29,9 +29,11 @@
 # Account Resource requires "admin" role
 #
 
-class Account
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RestConnection::RightScale
+  class Account
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
-  deny_methods :index, :create, :destroy, :update
+    deny_methods :index, :create, :destroy, :update
+  end
 end

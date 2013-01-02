@@ -21,27 +21,29 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-class ServerEc2EbsVolume
-  include  RightScale::Api::Base
-  extend RightScale::Api::BaseExtend
-  include RightScale::Api::Taggable
-  extend RightScale::Api::TaggableExtend
+module RestConnection::RightScale
+  class ServerEc2EbsVolume
+    include RestConnection::RightScale::Api::Base
+    extend RestConnection::RightScale::Api::BaseExtend
+    include RestConnection::RightScale::Api::Taggable
+    extend RestConnection::RightScale::Api::TaggableExtend
 
-  deny_methods :index, :update
+    deny_methods :index, :update
 
-  def resource_plural_name
-    "component_ec2_ebs_volumes"
-  end
+    def resource_plural_name
+      "component_ec2_ebs_volumes"
+    end
 
-  def resource_singular_name
-    "component_ec2_ebs_volume"
-  end
+    def resource_singular_name
+      "component_ec2_ebs_volume"
+    end
 
-  def self.resource_plural_name
-    "component_ec2_ebs_volumes"
-  end
+    def self.resource_plural_name
+      "component_ec2_ebs_volumes"
+    end
 
-  def self.resource_singular_name
-    "component_ec2_ebs_volume"
+    def self.resource_singular_name
+      "component_ec2_ebs_volume"
+    end
   end
 end

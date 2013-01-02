@@ -24,26 +24,28 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-class MonitoringMetric
-  include RightScale::Api::Gateway
-  extend RightScale::Api::GatewayExtend
+module RestConnection::RightScale
+  class MonitoringMetric
+    include RestConnection::RightScale::Api::Gateway
+    extend RestConnection::RightScale::Api::GatewayExtend
 
-  deny_methods :create, :destroy, :update
+    deny_methods :create, :destroy, :update
 
-  def self.parse_args(cloud_id, instance_id)
-    "clouds/#{cloud_id}/instances/#{instance_id}/"
-  end
+    def self.parse_args(cloud_id, instance_id)
+      "clouds/#{cloud_id}/instances/#{instance_id}/"
+    end
 
-  def self.filters
-    [:plugin, :view]
-  end
+    def self.filters
+      [:plugin, :view]
+    end
 
-  def data(start_time = "-60", end_time = "0")
-    params = {'start' => start_time.to_s, 'end' => end_time.to_s}
-    monitor = connection.get(URI.parse(self.href).path + "/data", params)
-    # NOTE: The following is a dirty hack
-    monitor['data'] = monitor['variables_data'].first
-    monitor['data']['value'] = monitor['data']['points']
-    monitor
+    def data(start_time = "-60", end_time = "0")
+      params = {'start' => start_time.to_s, 'end' => end_time.to_s}
+      monitor = connection.get(URI.parse(self.href).path + "/data", params)
+      # NOTE: The following is a dirty hack
+      monitor['data'] = monitor['variables_data'].first
+      monitor['data']['value'] = monitor['data']['points']
+      monitor
+    end
   end
 end
