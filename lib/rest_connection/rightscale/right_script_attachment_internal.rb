@@ -24,12 +24,12 @@
 require 'rest-client'
 RestClient.log = ENV["REST_CONNECTION_LOG"] || "stdout"
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class RightScriptAttachmentInternal
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
-    include RestConnection::RightScale::Api::Internal
-    extend RestConnection::RightScale::Api::InternalExtend
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
+    include RestConnection::Rightscale::Api::Internal
+    extend RestConnection::Rightscale::Api::InternalExtend
 
     deny_methods :index, :create, :update
 

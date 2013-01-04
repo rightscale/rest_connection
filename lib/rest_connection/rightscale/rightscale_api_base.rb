@@ -24,7 +24,7 @@
 require 'active_support/inflector'
 
 module RestConnection
-  module RightScale
+  module Rightscale
     module Api
       DATETIME_FMT = "%Y/%m/%d %H:%M:%S +0000"
       AWS_CLOUDS = [
@@ -111,7 +111,7 @@ module RestConnection
           settings[:extension] = ".js"
 
           unless @@connection.respond_to?(:refresh_cookie)
-            @@connection.instance_exec(&(RestConnection::RightScale::Api::BASE_COOKIE_REFRESH))
+            @@connection.instance_exec(&(RestConnection::Rightscale::Api::BASE_COOKIE_REFRESH))
           end
 
           @@connection.refresh_cookie unless @@connection.cookie
@@ -120,7 +120,7 @@ module RestConnection
       end
 
       module BaseExtend
-        include RestConnection::RightScale::Api::BaseConnection
+        include RestConnection::Rightscale::Api::BaseConnection
 
         def resource_plural_name
           self.to_s.split("::").last.underscore.pluralize
@@ -284,7 +284,7 @@ module RestConnection
       end
 
       module Base
-        include RestConnection::RightScale::Api::BaseConnection
+        include RestConnection::Rightscale::Api::BaseConnection
 
         # The params hash of attributes for direct manipulation
         attr_accessor :params

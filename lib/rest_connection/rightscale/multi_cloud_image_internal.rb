@@ -21,12 +21,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class MultiCloudImageInternal
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
-    include RestConnection::RightScale::Api::Internal
-    extend RestConnection::RightScale::Api::InternalExtend
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
+    include RestConnection::Rightscale::Api::Internal
+    extend RestConnection::Rightscale::Api::InternalExtend
 
     def resource_plural_name
       "multi_cloud_images"

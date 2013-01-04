@@ -21,10 +21,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class Ec2SecurityGroup
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
 
     VALID_RULE_TYPES =  [
                           [:group, :owner],

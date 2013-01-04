@@ -28,10 +28,10 @@
 #
 # ChildAccount Resource requires 'enterprise_manager' role and 'enterprise_master' account setting
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class ChildAccount
-    include RestConnection::RightScale::Api::Gateway
-    extend RestConnection::RightScale::Api::GatewayExtend
+    include RestConnection::Rightscale::Api::Gateway
+    extend RestConnection::Rightscale::Api::GatewayExtend
 
     deny_methods :destroy, :update, :show
 

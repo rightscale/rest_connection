@@ -24,7 +24,7 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   module Api
     module McInput
       def get_inputs

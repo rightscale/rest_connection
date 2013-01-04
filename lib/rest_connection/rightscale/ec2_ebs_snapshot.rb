@@ -21,11 +21,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class Ec2EbsSnapshot
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
-    include RestConnection::RightScale::Api::Taggable
-    extend RestConnection::RightScale::Api::TaggableExtend
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
+    include RestConnection::Rightscale::Api::Taggable
+    extend RestConnection::Rightscale::Api::TaggableExtend
   end
 end

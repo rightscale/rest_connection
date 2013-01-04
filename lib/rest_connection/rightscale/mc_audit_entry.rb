@@ -24,10 +24,10 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class McAuditEntry
-    include RestConnection::RightScale::Api::Gateway
-    extend RestConnection::RightScale::Api::GatewayExtend
+    include RestConnection::Rightscale::Api::Gateway
+    extend RestConnection::Rightscale::Api::GatewayExtend
 
     deny_methods :destroy, :index
 
@@ -52,8 +52,8 @@ module RestConnection::RightScale
     end
 
     def self.find_all(start_date=nil, end_date=nil, limit=1000)
-      start_date ||= (Time.now.utc - (60*60*24*31)).strftime(RestConnection::RightScale::Api::DATETIME_FMT)
-      end_date ||= Time.now.utc.strftime(RestConnection::RightScale::Api::DATETIME_FMT)
+      start_date ||= (Time.now.utc - (60*60*24*31)).strftime(RestConnection::Rightscale::Api::DATETIME_FMT)
+      end_date ||= Time.now.utc.strftime(RestConnection::Rightscale::Api::DATETIME_FMT)
       index(start_date, end_date, limit)
     end
 

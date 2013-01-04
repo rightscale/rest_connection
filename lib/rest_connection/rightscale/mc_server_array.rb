@@ -24,12 +24,12 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class McServerArray
-    include RestConnection::RightScale::Api::Gateway
-    extend RestConnection::RightScale::Api::GatewayExtend
-    include RestConnection::RightScale::Api::McTaggable
-    extend RestConnection::RightScale::Api::McTaggableExtend
+    include RestConnection::Rightscale::Api::Gateway
+    extend RestConnection::Rightscale::Api::GatewayExtend
+    include RestConnection::Rightscale::Api::McTaggable
+    extend RestConnection::Rightscale::Api::McTaggableExtend
 
     def resource_plural_name
       "server_arrays"

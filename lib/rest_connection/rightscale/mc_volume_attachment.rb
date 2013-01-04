@@ -24,10 +24,10 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class McVolumeAttachment
-    include RestConnection::RightScale::Api::Gateway
-    extend RestConnection::RightScale::Api::GatewayExtend
+    include RestConnection::Rightscale::Api::Gateway
+    extend RestConnection::Rightscale::Api::GatewayExtend
 
     deny_methods :update
 

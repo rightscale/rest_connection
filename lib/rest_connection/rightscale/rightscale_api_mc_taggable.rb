@@ -24,10 +24,10 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   module Api
     module McTaggable
-      include RestConnection::RightScale::Api::Taggable
+      include RestConnection::Rightscale::Api::Taggable
       def add_tags(*args)
         return false if args.empty?
         McTag.set(self.href, args.uniq)

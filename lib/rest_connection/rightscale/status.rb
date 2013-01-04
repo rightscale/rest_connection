@@ -26,10 +26,10 @@
 
 #This is the v4 image only work status api.
 # was used by Server#run_script (depricating..)
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class Status
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
     def wait_for_completed(audit_link = "no audit link available", timeout = 900)
       while(timeout > 0)
         reload

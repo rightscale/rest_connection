@@ -24,13 +24,13 @@
 #
 # You must have Beta v1.5 API access to use these internal API calls.
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class McInstance
-    include RestConnection::RightScale::Api::Gateway
-    extend RestConnection::RightScale::Api::GatewayExtend
-    include RestConnection::RightScale::Api::McTaggable
-    extend RestConnection::RightScale::Api::McTaggableExtend
-    include RestConnection::RightScale::Api::McInput
+    include RestConnection::Rightscale::Api::Gateway
+    extend RestConnection::Rightscale::Api::GatewayExtend
+    include RestConnection::Rightscale::Api::McTaggable
+    extend RestConnection::Rightscale::Api::McTaggableExtend
+    include RestConnection::Rightscale::Api::McInput
     attr_accessor :monitoring_metrics
 
     deny_methods :create, :destroy

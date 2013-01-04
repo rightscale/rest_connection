@@ -23,7 +23,7 @@
 
 require 'rest_connection/ssh_hax'
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class ServerInterface
     attr_reader :multicloud
 

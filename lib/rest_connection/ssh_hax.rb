@@ -25,7 +25,7 @@ require 'net/ssh'
 
 # This is a mixin module run_recipes until api support is ready for checking result of recipe run.
 # The mixin typically used from Server#run_recipe
-module RestConnection::RightScale
+module RestConnection::Rightscale
   module SshHax
 
     SSH_RETRY_COUNT = 3

@@ -21,10 +21,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class RightScript
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
 
     deny_methods :create, :destroy, :update
 
@@ -56,7 +56,7 @@ module RestConnection::RightScale
 
     def initialize(*args, &block)
       super(*args, &block)
-      if RestConnection::RightScale::Api::api0_1?
+      if RestConnection::Rightscale::Api::api0_1?
         @internal = RightScriptInternal.new(*args, &block)
       end
     end

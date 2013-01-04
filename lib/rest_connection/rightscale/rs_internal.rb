@@ -24,11 +24,11 @@
 #
 # You must have special API access to use these internal API calls.
 #
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class RsInternal
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
-    extend ::RestConnection::RightScale::Api::InternalConnection
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
+    extend ::RestConnection::Rightscale::Api::InternalConnection
 
     def connection
       self.connection

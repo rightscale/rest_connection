@@ -21,12 +21,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class ServerEc2EbsVolume
-    include RestConnection::RightScale::Api::Base
-    extend RestConnection::RightScale::Api::BaseExtend
-    include RestConnection::RightScale::Api::Taggable
-    extend RestConnection::RightScale::Api::TaggableExtend
+    include RestConnection::Rightscale::Api::Base
+    extend RestConnection::Rightscale::Api::BaseExtend
+    include RestConnection::Rightscale::Api::Taggable
+    extend RestConnection::Rightscale::Api::TaggableExtend
 
     deny_methods :index, :update
 

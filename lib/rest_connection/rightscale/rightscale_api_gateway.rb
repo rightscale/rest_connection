@@ -21,7 +21,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   module Api
     GATEWAY_COOKIE_REFRESH = proc do
       def refresh_cookie
@@ -56,7 +56,7 @@ module RestConnection::RightScale
         settings[:extension] = ".json"
 
         unless @@gateway_connection.respond_to?(:refresh_cookie)
-          @@gateway_connection.instance_exec(&(RestConnection::RightScale::Api::GATEWAY_COOKIE_REFRESH))
+          @@gateway_connection.instance_exec(&(RestConnection::Rightscale::Api::GATEWAY_COOKIE_REFRESH))
         end
 
         @@gateway_connection.refresh_cookie unless @@gateway_connection.cookie
@@ -65,8 +65,8 @@ module RestConnection::RightScale
     end
 
     module Gateway
-      include RestConnection::RightScale::Api::Base
-      include RestConnection::RightScale::Api::GatewayConnection
+      include RestConnection::Rightscale::Api::Base
+      include RestConnection::Rightscale::Api::GatewayConnection
 
       def initialize(params = {})
         @params = parse_params(params)
@@ -180,7 +180,7 @@ module RestConnection::RightScale
       end
 
       def load(resource)
-        mod = RestConnection::RightScale::Api::GatewayExtend
+        mod = RestConnection::Rightscale::Api::GatewayExtend
         @@gateway_resources ||= Object.constants.map do |const|
           klass = Object.const_get(const)
           (mod === klass ? klass : nil)
@@ -209,8 +209,8 @@ module RestConnection::RightScale
     end
 
     module GatewayExtend
-      include RestConnection::RightScale::Api::BaseExtend
-      include RestConnection::RightScale::Api::GatewayConnection
+      include RestConnection::Rightscale::Api::BaseExtend
+      include RestConnection::Rightscale::Api::GatewayConnection
 
       def find_by(attrib, *args, &block)
         attrib = attrib.to_sym

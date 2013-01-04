@@ -29,10 +29,10 @@
 # User Resource requires "admin" role
 #
 
-module RestConnection::RightScale
+module RestConnection::Rightscale
   class User
-    include RestConnection::RightScale::Api::Gateway
-    extend RestConnection::RightScale::Api::GatewayExtend
+    include RestConnection::Rightscale::Api::Gateway
+    extend RestConnection::Rightscale::Api::GatewayExtend
 
     deny_methods :destroy, :update
 
