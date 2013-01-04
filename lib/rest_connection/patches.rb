@@ -23,7 +23,7 @@
 
 # Hash Extensions
 module RestConnection
-  class Hash < ::Hash
+  class DeepMergeHash < ::Hash
     # Merges self with another second, recursively.
     #
     # This code was lovingly stolen from some random gem:
@@ -74,7 +74,7 @@ module RestConnection
   end
 
   # Array Extensions
-  class Array < ::Array
+  class DeepMergeArray < ::Array
     def deep_merge(second)
       target = dup
       return target unless second
@@ -116,7 +116,7 @@ module RestConnection
         second.times { |i| ret += dup }
         return ret
       elsif second.is_a?(::Array)
-        ret = RestConnection::Array.new
+        ret = DeepMergeArray.new
         each { |x| second.each { |y| ret << [x,y].flatten } }
         return ret
       else
@@ -128,7 +128,7 @@ module RestConnection
       if second.is_a?(::Integer)
         ret = dup
         (second - 1).times {
-          temp = RestConnection::Array.new
+          temp = DeepMergeArray.new
           ret.each { |x| each { |y| temp << [x,y].flatten } }
           ret = temp
         }

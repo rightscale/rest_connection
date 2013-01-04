@@ -346,7 +346,7 @@ module RestConnection::RightScale
     end
 
     def clear_tags(namespace = nil)
-      tags = RestConnection::Array.new
+      tags = DeepMergeArray.new
       tags.deep_merge! self.tags(true)
       tags.deep_merge! self.current_tags if @current_instance
       tags = tags.select { |tag| tag.start_with?("#{namespace}:") } if namespace

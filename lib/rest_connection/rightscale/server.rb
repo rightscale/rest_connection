@@ -461,11 +461,11 @@ module RestConnection::RightScale
     end
 
     def clear_tags(namespace = nil)
-      tags = RestConnection::Array.new
-      tags.deep_merge! self.tags(true)
-      tags.deep_merge! self.current_tags if self.current_instance_href
-      tags = tags.select { |tag| tag.start_with?("#{namespace}:") } if namespace
-      self.remove_tags(*tags)
+      tags_to_remove = DeepMergeArray.new
+      tags_to_remove.deep_merge! self.tags(true)
+      tags_to_remove.deep_merge! self.current_tags if self.current_instance_href
+      tags_to_remove = tags_to_remove.select { |tag| tag.start_with?("#{namespace}:") } if namespace
+      self.remove_tags(*tags_to_remove)
     end
 
     def lock
