@@ -34,12 +34,15 @@ module SshHax
       ssh_keys = item
     elsif item.is_a?(String)
       ssh_keys = [item]
-    elsif k = connection.settings[:ssh_key]
-      ssh_keys = [k]
-    elsif kk = connection.settings[:ssh_keys]
-      ssh_keys = kk
+    elsif connection_key = connection.settings[:ssh_key]
+      ssh_keys = [connection_key]
+    elsif connection_keys = connection.settings[:ssh_keys]
+      ssh_keys = connection_keys
     else
-      ssh_keys = nil
+      # Use the managed login key and ensure it exists
+      api_user_key_ssh_key_file_name = '~/.ssh/api_user_key'
+      raise "FATAL ERROR: #{api_user_key_ssh_key_file_name} does not exist." if !File.exist?(api_user_key_ssh_key_file_name)
+      ssh_keys = %w(api_user_key_ssh_key_file_name)
     end
     ssh_keys
   end
