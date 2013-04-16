@@ -71,7 +71,7 @@ module RightScale
           class_variable_set("@@connection", RestConnection::Connection.new(*opts))
         end
       end
-      @@api0_1, @@api1_0, @@api1_5 = nil, nil, nil
+      @@api1_0, @@api1_5 = nil, nil, nil
       true
     end
 
@@ -79,18 +79,10 @@ module RightScale
     # TODO: probe passively instead
     # TODO: move this logic to a separate file
 
-    # Checks for API 0.1 access
+    # Checks for API 0.1 access (ALWAYS RETURNS FALSE!)
     # Requires an account with internal API access on a legacy cluster
     def self.api0_1?
-      if class_variable_defined?("@@api0_1")
-        return @@api0_1 unless @@api0_1.nil?
-      end
-      Ec2SshKeyInternal.find_all
-      @@api0_1 = true
-    rescue RestConnection::Errors::Forbidden
-      @@api0_1 = false
-    rescue RestConnection::Errors::UnprocessableEntity
-      @@api0_1 = false
+      false
     end
 
     # Checks for API 1.0 access
