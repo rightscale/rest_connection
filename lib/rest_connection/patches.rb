@@ -111,6 +111,7 @@ class Array
     end
   end
 
+  alias :old_multiply :*
   def *(second)
     if second.is_a?(Integer)
       ret = []
@@ -121,7 +122,7 @@ class Array
       each { |x| second.each { |y| ret << [x,y].flatten } }
       return ret
     else
-      raise TypeError.new("can't convert #{second.class} into Integer")
+      old_multiply(second)
     end
   end
 
