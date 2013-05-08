@@ -89,6 +89,7 @@ module RestConnection
       @settings[:azure_hack_retry_count] ||= 5
       @settings[:azure_hack_sleep_seconds] ||= 60
       @settings[:api_logging] ||= false
+      @settings[:legacy_shard] ||= true
     end
 
     # Main HTTP connection loop. Common settings are set here, then we yield(BASE_URI, OPTIONAL_HEADERS) to other methods for each type of HTTP request: GET, PUT, POST, DELETE
