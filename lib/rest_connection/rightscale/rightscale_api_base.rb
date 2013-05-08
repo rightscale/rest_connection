@@ -86,7 +86,7 @@ module RightScale
         return @@api0_1 unless @@api0_1.nil?
       end
 
-      if connection.settings[:legacy_shard]
+      if RestConnection::Connection.new.settings[:legacy_shard]
         begin
           Ec2SshKeyInternal.find_all
           @@api0_1 = true
