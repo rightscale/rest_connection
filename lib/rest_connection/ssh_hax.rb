@@ -42,7 +42,7 @@ module SshHax
       # Use the managed login key and ensure it exists
       api_user_key_ssh_key_file_name = '~/.ssh/api_user_key'
       raise "FATAL ERROR: #{api_user_key_ssh_key_file_name} does not exist." if !File.exist?(api_user_key_ssh_key_file_name)
-      ssh_keys = %w(api_user_key_ssh_key_file_name)
+      ssh_keys = [api_user_key_ssh_key_file_name]
     end
     ssh_keys
   end
