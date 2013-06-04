@@ -39,8 +39,8 @@ module SshHax
     elsif connection_keys = connection.settings[:ssh_keys]
       ssh_keys = connection_keys
     else
-      # Use the managed login key and ensure it exists
-      api_user_key_ssh_key_file_name = '~/.ssh/api_user_key'
+      # If no key(s) provided, assume a standard monkey configuration which uses '/root/.ssh/api_user_key'.
+      api_user_key_ssh_key_file_name = '/root/.ssh/api_user_key'
       raise "FATAL ERROR: #{api_user_key_ssh_key_file_name} does not exist." if !File.exist?(api_user_key_ssh_key_file_name)
       ssh_keys = [api_user_key_ssh_key_file_name]
     end
