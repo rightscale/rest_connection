@@ -36,17 +36,8 @@ class MultiCloudImage
     @params["multi_cloud_image_cloud_settings"].map { |mcics| mcics.cloud_id }
   end
 
-  # You must have access to multiple APIs for this (0.1, and 1.5)
-  def find_and_flatten_settings()
-    internal = MultiCloudImageInternal.new("href" => self.href)
-    internal.reload
-    total_image_count = internal.multi_cloud_image_cloud_settings.size
-    # The .settings call filters out non-ec2 images
-    more_settings = []
-    if total_image_count > internal.settings.size
-      more_settings = McMultiCloudImage.find(rs_id.to_i).settings
-    end
-    @params["multi_cloud_image_cloud_settings"] = internal.settings + more_settings
+  def find_and_flatten_settings
+    @params["multi_cloud_image_cloud_settings"] = McMultiCloudImage.find(rs_id.to_i).settings
   end
 
   def initialize(*args, &block)

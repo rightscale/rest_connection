@@ -85,12 +85,19 @@ module RightScale
       if class_variable_defined?("@@api0_1")
         return @@api0_1 unless @@api0_1.nil?
       end
-      Ec2SshKeyInternal.find_all
-      @@api0_1 = true
-    rescue RestConnection::Errors::Forbidden
-      @@api0_1 = false
-    rescue RestConnection::Errors::UnprocessableEntity
-      @@api0_1 = false
+
+      if RestConnection::Connection.new.settings[:legacy_shard]
+        begin
+          Ec2SshKeyInternal.find_all
+          @@api0_1 = true
+        rescue RestConnection::Errors::Forbidden
+          @@api0_1 = false
+        rescue RestConnection::Errors::UnprocessableEntity
+          @@api0_1 = false
+        end
+      else
+        @@api0_1 = false
+      end
     end
 
     # Checks for API 1.0 access
