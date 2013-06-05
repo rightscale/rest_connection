@@ -37,7 +37,19 @@ class MultiCloudImage
   end
 
   def find_and_flatten_settings
-    @params["multi_cloud_image_cloud_settings"] = McMultiCloudImage.find(rs_id.to_i).settings
+    if connection.settings[:legacy_shard]
+      internal = MultiCloudImageInternal.new("href" => self.href)
+      internal.reload
+      total_image_count = internal.multi_cloud_image_cloud_settings.size
+      # The .settings call filters out non-ec2 images
+      more_settings = []
+      if total_image_count > internal.settings.size
+        more_settings = McMultiCloudImage.find(rs_id.to_i).settings
+      end
+      @params["multi_cloud_image_cloud_settings"] = internal.settings + more_settings
+    else
+      @params["multi_cloud_image_cloud_settings"] = McMultiCloudImage.find(rs_id.to_i).settings
+    end
   end
 
   def initialize(*args, &block)
