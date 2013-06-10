@@ -23,7 +23,8 @@ It currently has support for RightScale API 1.0 and 1.5.
   s.add_runtime_dependency 'json'
   s.add_runtime_dependency 'highline'
   s.add_runtime_dependency 'rest-client'
-  s.add_runtime_dependency 'nokogiri'
+  # nokogiri >= 1.6.0 requires ruby 1.9
+  s.add_runtime_dependency 'nokogiri', "<1.6.0"
 
   s.add_development_dependency 'rake',         '0.8.7'
   s.add_development_dependency 'bundler'
