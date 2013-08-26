@@ -102,6 +102,7 @@ module SshHax
                 output += data
               end
             end
+            success = true
           end
         end
       rescue Exception => e

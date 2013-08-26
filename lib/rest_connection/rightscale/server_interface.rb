@@ -137,7 +137,7 @@ class ServerInterface
       next unless hsh[to]
       hsh[to].each { |field|
         vals = opts.select {|k,v| [[hsh["1.0"]] + [hsh["1.5"]]].flatten.include?(k.to_sym) }
-        vals.flatten!
+        vals = vals.flatten
         vals.compact!
         if hsh["fn"]
           server[field.to_s] = __send__(hsh["fn"], to, opts[vals.first]) unless vals.first.nil?
