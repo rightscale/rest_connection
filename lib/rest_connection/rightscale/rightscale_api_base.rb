@@ -48,11 +48,27 @@ module RightScale
       def refresh_cookie
         # login
         @cookie = nil
+        #####################################################################
+        # HACK: Re-login with API version 1.0 when receiving an API 0.1 call
+        # https://rightsite.gitsrc.com/trac/ticket/16404
+        if @settings[:common_headers]["X_API_VERSION"] == "0.1"
+          @settings[:common_headers]["X_API_VERSION"] = "1.0"
+          @__refreshing_cookie_for_api_0_1__ = true
+        end
+        #####################################################################
         resp = get("login")
         unless resp.code == "302" || resp.code == "204"
           raise "ERROR: Login failed. #{resp.message}. Code:#{resp.code}"
         end
         @cookie = resp.response['set-cookie']
+        #####################################################################
+        # HACK: Reset the API version header to 0.1 so subsequent calls work
+        # https://rightsite.gitsrc.com/trac/ticket/16404
+        if @__refreshing_cookie_for_api_0_1__
+          @settings[:common_headers]["X_API_VERSION"] = "0.1"
+          @__refreshing_cookie_for_api_0_1__ = false
+        end
+        #####################################################################
         true
       end
     end
