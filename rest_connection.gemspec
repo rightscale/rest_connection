@@ -36,6 +36,6 @@ It currently has support for RightScale API 1.0 and 1.5.
     s.add_runtime_dependency 'nokogiri', "<1.6.0"
     s.add_development_dependency 'ruby-debug'
   else
-    raise RuntimeException.new("Ruby version '#{ENV["RUBY_VERSION"]}' is not currently supported.")
+    raise "Ruby version '#{ENV["RUBY_VERSION"]}' is not currently supported."
   end
 end
