@@ -137,7 +137,16 @@ class ServerInterface
       next unless hsh[to]
       hsh[to].each { |field|
         vals = opts.select {|k,v| [[hsh["1.0"]] + [hsh["1.5"]]].flatten.include?(k.to_sym) }
-        vals.flatten!
+        # IMPORTANT NOTE REGARDING RUBY VERSIONS!
+        #
+        # In Ruby 1.9.3 the next line of code is required to be written the way it is. Previously, it was written as:
+        # vals.flatten! which doesn't work in Ruby 1.9.3.
+        #
+        # This is because opts is a hash and in Ruby 1.8.7, the select (above) returns an flattened array of
+        # key, value pairs but in 1.9.3 it returns a new hash. flatten! does not exist for hashes so that would
+        # no longer work in Ruby 1.9.3 and the code had to be changed to vals = vals.flatten to work correctly
+        # in both Ruby versions.
+        vals = vals.flatten
         vals.compact!
         if hsh["fn"]
           server[field.to_s] = __send__(hsh["fn"], to, opts[vals.first]) unless vals.first.nil?
