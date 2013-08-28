@@ -102,6 +102,20 @@ module SshHax
                 output += data
               end
             end
+            # IMPORTANT NOTE REGARDING RUBY VERSIONS!
+            #
+            # In Ruby 1.9.3 the next line of code is required. In Ruby 1.8.x, block variables were introduced into the
+            # scope that the block was called from. Now, in Ruby 1.9.1, blocks introduce their own scope for the block
+            # parameters only. That means, when a block taking a single parameter called x is called, if there are local
+            # variables x and y in scope, then any reference to the variable x within the scope refers to the new
+            # variable the block parameter brings into scope. However, any reference to the variable y in the block
+            # refers to the variable y in scope where the block was called.
+            #
+            # See http://ruby.about.com/od/newinruby191/a/blockvariscope.htm for more details.
+            #
+            # Without the next line of code, the while will never terminate in Ruby 1.9.3. In Ruby 1.8.7 it is
+            # essentially a no-op as success will already be set to true.
+            success = true
           end
         end
       rescue Exception => e
