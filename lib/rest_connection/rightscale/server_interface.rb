@@ -260,11 +260,16 @@ class ServerInterface
     if @multicloud and st == "stopped"
       st = "inactive"
     end
-    if @multicloud and st == "_stopped"
-      st = "stopped"
+    if @multicloud and st =~ /stopped|terminated/
+      puts @impl.inspect
+      @impl_instance = @impl.current_instance
+      puts @impl_instance.inspect
+      @impl_instance.wait_for_state(st,timeout)
+    else
+      @impl.wait_for_state(st,timeout)
     end
-    @impl.wait_for_state(st,timeout)
   end
+
 
   def save(new_params = nil)
     if new_params
