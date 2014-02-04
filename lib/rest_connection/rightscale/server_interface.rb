@@ -260,6 +260,9 @@ class ServerInterface
     if @multicloud and st == "stopped"
       st = "inactive"
     end
+    if @multicloud and st == "_stopped"
+      st = "stopped"
+    end
     @impl.wait_for_state(st,timeout)
   end
 
