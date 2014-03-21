@@ -60,8 +60,17 @@ class Deployment
 
   def servers_no_reload
     connection.logger("WARNING: No Servers in the Deployment!") if @params['servers'].empty?
+
+    cloud_id = nil
+    @params["tags"].each do |hash|
+      if hash["name"] =~ /info:cloud=(\d+)/
+        cloud_id = $1
+        break
+      end
+    end
+
     unless @params['servers'].reduce(true) { |bool,s| bool && s.is_a?(ServerInterface) }
-      @params['servers'].map! { |s| ServerInterface.new(self.cloud_id, s, self.rs_id) }
+      @params['servers'].map! { |s| ServerInterface.new(cloud_id, s, self.rs_id) }
     end
     @params['servers']
   end
