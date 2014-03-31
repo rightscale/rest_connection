@@ -70,9 +70,25 @@ class Deployment
     end
 
     unless @params['servers'].reduce(true) { |bool,s| bool && s.is_a?(ServerInterface) }
-      @params['servers'].map! { |s| ServerInterface.new(cloud_id, s, self.rs_id) }
-    end
-    @params['servers']
+      @params['servers'].map! do |s|
+        # Create a temporary, legacy type server for each server in deployment.
+        id = s['href'].match(/(\d{6,})$/)[0]
+        serv = Server[id.to_i]
+
+        # Query for settings.  AWS servers will return valid details, Generics won't.
+        cloud_id = nil
+        begin
+          settings = serv.first.settings
+          cloud_id = settings['cloud_id']
+          puts "Cloud id #{cloud_id} found for server #{id.to_s}, assuming AWS server"
+        rescue
+          puts "Settings not returned from server #{id.to_s}, using API 1.0 call, assuming Generic server"
+        end
+
+        # Now we pass on cloud_id, it will be nil for generic servers, of a valid number for AWS servers
+        ServerInterface.new(cloud_id, s, self.rs_id)
+      end
+  end
   end
 
   def servers
