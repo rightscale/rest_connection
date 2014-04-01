@@ -1,10 +1,9 @@
 ruby do
   version  'ree-1.8.7-2012.02'
-  rubygems '1.8.24'
   gemset   'rest_connection'
 end
 bundler do
-  version     '1.2.2'
+  version     '1.5.3'
   exclusions  'deployment'
   bundle_path File.join(ENV["HOME"], '.rightscale_bundle', 'rest_connection')
 end

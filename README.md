@@ -1,5 +1,9 @@
 # RightScale REST Connection
 
+This gem is deprecated!
+
+If you only use API 1.5, you should use the [right_api_client](https://rubygems.org/gems/right_api_client) gem instead.
+
 The rest_connection gem is a Ruby library for RightScale's API 0.1, 1.0 and 1.5.
 
 Legacy clusters:
@@ -15,17 +19,10 @@ This gem also supports RightScale's instance facing API 1.0, which use the insta
 The instance token is found in the instance's user data as 'RS_rn_auth' or alternatively as part of 'RS_api_url'.
 The user data is available under the 'Info' tab on the server's page in the RightScale Dashboard.
 
-This gem should be considered deprecated!
-
-If you only use API 1.5, you should use the right_api_client gem instead:
-https://rubygems.org/gems/right_api_client
-
-- API 1.0 Documentation: http://support.rightscale.com/12-Guides/03-RightScale_API
-- API 1.0 Reference Docs: http://reference.rightscale.com/api1.0
-- API 1.5 Documentation: http://support.rightscale.com/12-Guides/RightScale_API_1.5
-- API 1.5 Reference Docs: http://reference.rightscale.com/api1.5
-
-Maintained by the RightScale "Yellow_team" 
+- [API 1.0 Documentation](http://support.rightscale.com/12-Guides/03-RightScale_API)
+- [API 1.0 Reference Docs](http://reference.rightscale.com/api1.0)
+- [API 1.5 Documentation](http://support.rightscale.com/12-Guides/RightScale_API_1.5)
+- [API 1.5 Reference Docs](http://reference.rightscale.com/api1.5)
 
 ## Installation
 
@@ -45,8 +42,8 @@ Ruby 1.8.7 or higher is required.
 
 ## Versioning
 
-This gem follows semantic versioning: http://semver.org
-
+This gem follows [semantic versioning](http://semver.org).
+ 
 ## Usage Instructions
 
 You must setup '~/.rest_connection/rest_api_config.yaml' or '/etc/rest_connection/rest_api_config.yaml'
@@ -137,4 +134,4 @@ Edit lib/rest_connection/version.rb with semantic version number.
     "cd -"
     "bundle exec gem push rest_connection-X.Y.Z.gem"
 
-Check it out: https://rubygems.org/gems/rest_connection
+Check it out: [rest_connection](https://rubygems.org/gems/rest_connection)
