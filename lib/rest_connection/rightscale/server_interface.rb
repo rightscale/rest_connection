@@ -27,13 +27,15 @@ class ServerInterface
   attr_reader :multicloud
 
   def initialize(cid = nil, params = {}, deployment_id = nil)
+
+    # If cid is nil, assume generic server, otherwise check value and if cloud
+    # id is in range of AWS clouds we can assume it's an AWS server
     if cid
       @multicloud = (cid.to_i > 10 ? true : false)
-    elsif params["href"]
-      @multicloud = false
     else
       @multicloud = true
     end
+
     if @multicloud
       if deployment_id
         name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
@@ -103,7 +105,7 @@ class ServerInterface
               {"1.0" => [:pricing]},
               {"1.0" => [:max_spot_price]},
               {                                       "1.5" => [:inputs]},
-              {                                       "1.5" => [:mci_href, :multi_cloud_image_href]},
+              {"1.0" => [:multi_cloud_image_href],    "1.5" => [:mci_href, :multi_cloud_image_href]},
               {                                       "1.5" => [:datacenter_href]},
               {"1.0" => [:aki_image_href],            "1.5" => [:kernel_image_href]},
               {"1.0" => [:ari_image_href],            "1.5" => [:ramdisk_image_href]}]
