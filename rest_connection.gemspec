@@ -10,7 +10,9 @@ Gem::Specification.new do |s|
   s.email        = [ 'rubygems@rightscale.com' ]
   s.homepage     = 'https://github.com/rightscale/rest_connection'
   s.summary      = 'A Modular RESTful API library.'
+  s.license      = 'MIT'
   s.description  = %{
+This gem is deprecated! Please use right_api_client instead.
 The rest_connection gem simplifies the use of RESTful APIs.
 It currently has support for RightScale API 1.0 and 1.5.
   }
