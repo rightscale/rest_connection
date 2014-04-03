@@ -20,9 +20,9 @@ The instance token is found in the instance's user data as 'RS_rn_auth' or alter
 The user data is available under the 'Info' tab on the server's page in the RightScale Dashboard.
 
 - [API 1.0 Documentation](http://support.rightscale.com/12-Guides/03-RightScale_API)
-- [API 1.0 Reference Docs](http://reference.rightscale.com/api1.0)
+- [API 1.0 Reference Docs](http://reference.rightscale.com/api1.0/index.html)
 - [API 1.5 Documentation](http://support.rightscale.com/12-Guides/RightScale_API_1.5)
-- [API 1.5 Reference Docs](http://reference.rightscale.com/api1.5)
+- [API 1.5 Reference Docs](http://reference.rightscale.com/api1.5/index.html)
 
 ## Installation
 
