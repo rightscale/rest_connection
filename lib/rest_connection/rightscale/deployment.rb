@@ -61,14 +61,6 @@ class Deployment
   def servers_no_reload
     connection.logger("WARNING: No Servers in the Deployment!") if @params['servers'].empty?
 
-    cloud_id = nil
-    @params["tags"].each do |hash|
-      if hash["name"] =~ /info:cloud=(\d+)/
-        cloud_id = $1
-        break
-      end
-    end
-
     unless @params['servers'].reduce(true) { |bool,s| bool && s.is_a?(ServerInterface) }
       @params['servers'].map! do |s|
         # Create a temporary, legacy type server for each server in deployment.
@@ -88,7 +80,9 @@ class Deployment
         # Now we pass on cloud_id, it will be nil for generic servers, of a valid number for AWS servers
         ServerInterface.new(cloud_id, s, self.rs_id)
       end
-  end
+    end
+
+    @params['servers']
   end
 
   def servers
