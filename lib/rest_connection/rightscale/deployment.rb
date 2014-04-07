@@ -58,6 +58,11 @@ class Deployment
     connection.put(deploy_href.path, :deployment => {:parameters => {name => value} })
   end
 
+  # Function iterates over each server in hash and calls for appropiate object creation, (Server
+  # or McServer), from ServerInteraface.
+  #
+  # @return [Hash] servers
+  #
   def servers_no_reload
     connection.logger("WARNING: No Servers in the Deployment!") if @params['servers'].empty?
 
