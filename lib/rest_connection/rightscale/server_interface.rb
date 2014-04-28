@@ -107,6 +107,7 @@ class ServerInterface
               {                                       "1.5" => [:inputs]},
               {"1.0" => [:multi_cloud_image_href],    "1.5" => [:mci_href, :multi_cloud_image_href]},
               {                                       "1.5" => [:datacenter_href]},
+              {                                       "1.5" => [:subnet_hrefs]},
               {"1.0" => [:aki_image_href],            "1.5" => [:kernel_image_href]},
               {"1.0" => [:ari_image_href],            "1.5" => [:ramdisk_image_href]}]
 
