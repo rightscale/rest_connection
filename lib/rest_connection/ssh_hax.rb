@@ -40,7 +40,7 @@ module SshHax
       ssh_keys = connection_keys
     else
       # If no key(s) provided, assume a standard monkey configuration which uses '/root/.ssh/api_user_key'.
-      api_user_key_ssh_key_file_name = '/root/.ssh/api_user_key'
+      api_user_key_ssh_key_file_name = File.expand_path('~/.ssh/api_user_key')
       raise "FATAL ERROR: #{api_user_key_ssh_key_file_name} does not exist." if !File.exist?(api_user_key_ssh_key_file_name)
       ssh_keys = [api_user_key_ssh_key_file_name]
     end
