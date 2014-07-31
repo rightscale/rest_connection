@@ -104,6 +104,7 @@ module RestConnection
     def rest_connect(&block)
       uri = URI.parse(@settings[:api_href])
       http = Net::HTTP.new(uri.host, uri.port)
+      http.read_timeout = 300
       if uri.scheme == 'https'
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -133,13 +134,13 @@ module RestConnection
     def error_handler(e)
       case e
       when EOFError, Timeout::Error
-        if @max_retries >= 0
+        if @max_retries > 0
           logger("Caught #{e}. Retrying...")
           @max_retries -= 1
           return true
         end
       when RestConnection::Errors::Forbidden
-        if @max_retries >= 0
+        if @max_retries > 0
           if e.response.body =~ /(session|cookie).*(invalid|expired)/i
             logger("Caught '#{e.response.body}'. Refreshing cookie...")
             refresh_cookie if respond_to?(:refresh_cookie)
