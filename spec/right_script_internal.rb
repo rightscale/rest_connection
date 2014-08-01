@@ -22,7 +22,7 @@
 #++
 
 require File.join(File.dirname(__FILE__), 'spec_helper')
-require 'debugger'
+require RUBY_VERSION =~ /1\.8/ ? 'ruby-debug' : 'debugger'
 
 describe RightScriptInternal, "exercises the right_script internal api" do
 
