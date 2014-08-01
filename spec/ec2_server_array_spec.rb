@@ -23,7 +23,7 @@
 
 require 'rubygems'
 require 'rest_connection'
-require 'ruby-debug'
+require 'debugger'
 
 describe Ec2ServerArray, "takes over the world with some server arrays" do
   before(:all) do

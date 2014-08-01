@@ -23,7 +23,7 @@
 
 require 'rubygems'
 require 'rest_connection'
-require 'ruby-debug'
+require 'debugger'
 
 describe MultiCloudImage do
   it "goes" do

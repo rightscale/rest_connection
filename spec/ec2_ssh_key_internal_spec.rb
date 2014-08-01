@@ -23,7 +23,7 @@
 
 require 'rubygems'
 require 'rest_connection'
-require 'ruby-debug'
+require 'debugger'
 
 describe Ec2SshKeyInternal, "ec2_ssh_key internal api object exercise" do
   before(:all) do

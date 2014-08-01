@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'rest_connection'
-require 'ruby-debug'
+require 'debugger'
 
 describe Tag, "tags" do
   it "a server" do

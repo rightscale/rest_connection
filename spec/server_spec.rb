@@ -23,7 +23,7 @@
 
 require 'rubygems'
 require 'rest_connection'
-require 'ruby-debug'
+require 'debugger'
 
 describe Server, "server api object exercise" do
   before(:all) do

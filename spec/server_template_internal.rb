@@ -22,7 +22,7 @@
 #++
 
 require File.join(File.dirname(__FILE__), 'spec_helper')
-require 'ruby-debug'
+require 'debugger'
 
 describe ServerTemplateInternal, "exercises the server_template internal api" do
 
