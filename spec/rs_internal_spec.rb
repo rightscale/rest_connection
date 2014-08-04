@@ -23,7 +23,7 @@
 
 require 'rubygems'
 require 'rest_connection'
-require RUBY_VERSION =~ /1\.8/ ? 'ruby-debug' : 'debugger'
+require RUBY_VERSION =~ /^1..8/ ? 'ruby-debug' : 'debugger'
 
 describe RsInternal, "exercises the rs_internal api" do
   before(:all) do

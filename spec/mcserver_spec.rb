@@ -23,7 +23,7 @@
 
 require 'rubygems'
 require 'rest_connection'
-require RUBY_VERSION =~ /1\.8/ ? 'ruby-debug' : 'debugger'
+require RUBY_VERSION =~ /^1..8/ ? 'ruby-debug' : 'debugger'
 
 describe McServer, "server api object exercise" do
   before(:all) do

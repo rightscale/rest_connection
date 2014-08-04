@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'rest_connection'
-require RUBY_VERSION =~ /1\.8/ ? 'ruby-debug' : 'debugger'
+require RUBY_VERSION =~ /^1..8/ ? 'ruby-debug' : 'debugger'
 
 describe Tag, "tags" do
   it "a server" do
