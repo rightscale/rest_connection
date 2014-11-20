@@ -35,22 +35,28 @@ class ServerInterface
     else
       @multicloud = true
     end
-
+@multicloud = true
     if @multicloud
       if deployment_id
         name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
+        puts "RC<??>#{__callee__} path 1"
         @impl = McServer.find_by(:name, deployment_id) { |n| n == name }.first
       else
+        puts "RC<??>#{__callee__} path 2"
         @impl = McServer.new(params)
       end
     else
+      puts "RC<??>#{__callee__} path 3"
       @impl = Server.new(params)
     end
     self
   end
 
   def create(opts)
+    puts "RC<??>#{__callee__} @multicloud  is #{@multicloud.inspect}"
+    puts "<??> resouce plural #{resource_plural_name.inspect} and translate_create_opts is #{translate_create_opts(opts).inspect}"
     location = connection.post(resource_plural_name, translate_create_opts(opts))
+    puts "<??> location location location <#{location.inspect}>"
     @impl = (@multicloud ? McServer.new('href' => location) : Server.new('href' => location))
     settings
     self
@@ -139,7 +145,15 @@ class ServerInterface
     fields.each { |hsh|
       next unless hsh[to]
       hsh[to].each { |field|
-        vals = opts.select {|k,v| [[hsh["1.0"]] + [hsh["1.5"]]].flatten.include?(k.to_sym) }
+        vals = opts.select {|k,v|
+          [ 
+            [ 
+              hsh["1.0"] 
+            ] + 
+            [ 
+              hsh["1.5"]
+            ] 
+          ].flatten.include?(k.to_sym) }
         # IMPORTANT NOTE REGARDING RUBY VERSIONS!
         #
         # In Ruby 1.9.3 the next line of code is required to be written the way it is. Previously, it was written as:
@@ -151,6 +165,7 @@ class ServerInterface
         # in both Ruby versions.
         vals = vals.flatten
         vals.compact!
+        puts "<??>vals is \n<#{vals.inspect}\n"
         if hsh["fn"]
           server[field.to_s] = __send__(hsh["fn"], to, opts[vals.first]) unless vals.first.nil?
         else
