@@ -41,6 +41,7 @@ module RightScale
       {"cloud_id" => 6, "name" => "AWS US-Oregon"},
       {"cloud_id" => 7, "name" => "AWS SA-Sao Paulo"},
       {"cloud_id" => 8, "name" => "AWS AP-Sydney"},
+      {"cloud_id" => 9, "name" => "AWS EU-Frankfurt"},
     ]
 
     BASE_COOKIE_REFRESH = proc do
