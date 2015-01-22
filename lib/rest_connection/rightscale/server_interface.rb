@@ -29,20 +29,15 @@ class ServerInterface
 
     if deployment_id
       name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
-      puts "RC<??>#{__callee__} path 1"
       @impl = McServer.find_by(:name, deployment_id) { |n| n == name }.first
     else
-      puts "RC<??>#{__callee__} path 2"
       @impl = McServer.new(params)
     end
     self
   end
 
   def create(opts)
-    puts "RC<??>#{__callee__}"
-    puts "<??> resouce plural #{resource_plural_name.inspect} and translate_create_opts is #{translate_create_opts(opts).inspect}"
     location = connection.post(resource_plural_name, translate_create_opts(opts))
-    puts "<??> location location location <#{location.inspect}>"
     @impl = McServer.new('href' => location)
     settings
     self
