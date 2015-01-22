@@ -23,7 +23,7 @@
 
 
 #
-# This class is DEPRECATED and should no longer be used.  All clouds should use McServer.
+# This class is DEPRECATED and should no longer be used.  All servers should use McServer.
 # It is being preserved because it is the base class for McServer.
 #
 
