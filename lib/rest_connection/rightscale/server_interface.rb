@@ -28,36 +28,24 @@ class ServerInterface
 
   def initialize(cid = nil, params = {}, deployment_id = nil)
 
-    # If cid is nil, assume generic server, otherwise check value and if cloud
-    # id is in range of AWS clouds we can assume it's an AWS server
-    if cid
-      @multicloud = (cid.to_i > 10 ? true : false)
+    @multicloud = true
+    if deployment_id
+      name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
+      puts "RC<??>#{__callee__} path 1"
+      @impl = McServer.find_by(:name, deployment_id) { |n| n == name }.first
     else
-      @multicloud = true
-    end
-@multicloud = true
-    if @multicloud
-      if deployment_id
-        name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
-        puts "RC<??>#{__callee__} path 1"
-        @impl = McServer.find_by(:name, deployment_id) { |n| n == name }.first
-      else
-        puts "RC<??>#{__callee__} path 2"
-        @impl = McServer.new(params)
-      end
-    else
-      puts "RC<??>#{__callee__} path 3"
-      @impl = Server.new(params)
+      puts "RC<??>#{__callee__} path 2"
+      @impl = McServer.new(params)
     end
     self
   end
 
   def create(opts)
-    puts "RC<??>#{__callee__} @multicloud  is #{@multicloud.inspect}"
+    puts "RC<??>#{__callee__}"
     puts "<??> resouce plural #{resource_plural_name.inspect} and translate_create_opts is #{translate_create_opts(opts).inspect}"
     location = connection.post(resource_plural_name, translate_create_opts(opts))
     puts "<??> location location location <#{location.inspect}>"
-    @impl = (@multicloud ? McServer.new('href' => location) : Server.new('href' => location))
+    @impl = McServer.new('href' => location)
     settings
     self
   end
@@ -81,8 +69,7 @@ class ServerInterface
   end
 
   def nickname
-    return @impl.nickname unless @multicloud
-    return @impl.name if @multicloud
+    return @impl.name
   end
 
   def method_missing(method_name, *args, &block)
@@ -165,7 +152,6 @@ class ServerInterface
         # in both Ruby versions.
         vals = vals.flatten
         vals.compact!
-        puts "<??>vals is \n<#{vals.inspect}\n"
         if hsh["fn"]
           server[field.to_s] = __send__(hsh["fn"], to, opts[vals.first]) unless vals.first.nil?
         else
@@ -227,8 +213,7 @@ class ServerInterface
   # Since RightScale hands back the parameters with a "name" and "value" tags we should
   # transform them into the proper hash.  This it the same for setting and getting.
   def parameters
-    return @impl.parameters unless @multicloud
-    return @impl.inputs if @multicloud
+    return @impl.inputs
   end
 
   def inputs
@@ -244,38 +229,32 @@ class ServerInterface
   end
 
   def launch
-    return @impl.launch if @multicloud
-    return @impl.start unless @multicloud
+    return @impl.launch
   end
 
   def terminate
-    return @impl.terminate if @multicloud
-    return @impl.stop unless @multicloud
+    return @impl.terminate
   end
 
   def start_ebs
-    return connection.logger("WARNING: Gateway Servers do not support start_ebs. Ignoring.") if @multicloud
-    return @impl.start_ebs unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support start_ebs. Ignoring.")
   end
 
   def stop_ebs
-    return connection.logger("WARNING: Gateway Servers do not support stop_ebs. Ignoring.") if @multicloud
-    return @impl.stop_ebs unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support stop_ebs. Ignoring.")
   end
 
   # This should be used with v4 images only.
   def run_script(script,opts=nil)
-    return connection.logger("WARNING: Gateway Servers do not support run_script. Did you mean run_executable?") if @multicloud
-    return @impl.run_script(script,opts) unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support run_script. Did you mean run_executable?")
   end
 
   def attach_volume(params)
-    return connection.logger("WARNING: Gateway Servers do not support attach_volume. Ignoring.") if @multicloud
-    return @impl.attach_volume(params) unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support attach_volume. Ignoring.")
   end
 
   def wait_for_state(st,timeout=1200)
-    if @multicloud and st == "stopped"
+    if st == "stopped"
       st = "inactive"
     end
     @impl.wait_for_state(st,timeout)
@@ -284,11 +263,7 @@ class ServerInterface
   def save(new_params = nil)
     if new_params
       @impl.settings
-      if @multicloud
-        @impl.next_instance.params.merge!(translate_create_opts(new_params, :instance_only)["instance"])
-      else
-        @impl.params.merge!(translate_create_opts(new_params)["server"])
-      end
+      @impl.next_instance.params.merge!(translate_create_opts(new_params, :instance_only)["instance"])
     end
     @impl.save
   end
