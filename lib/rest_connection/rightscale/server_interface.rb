@@ -24,11 +24,9 @@
 require 'rest_connection/ssh_hax'
 
 class ServerInterface
-  attr_reader :multicloud
 
   def initialize(cid = nil, params = {}, deployment_id = nil)
 
-    @multicloud = true
     if deployment_id
       name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
       puts "RC<??>#{__callee__} path 1"
@@ -105,28 +103,16 @@ class ServerInterface
               {"1.0" => [:ari_image_href],            "1.5" => [:ramdisk_image_href]}]
 
     opts = old_opts.dup
-    if @multicloud
-      to = "1.5"
-      if instance_only
-        ret = {"instance" => {}}
-        server = ret["instance"]
-      else
-        ret = {"server" => {"instance" => {}}}
-        ret["server"]["name"] = (opts["name"] ? opts["name"] : opts["nickname"])
-        ret["server"]["description"] = opts["description"]
-        ret["server"]["deployment_href"] = opts["deployment_href"]
-        server = ret["server"]["instance"]
-      end
+    to = "1.5"
+    if instance_only
+      ret = {"instance" => {}}
+      server = ret["instance"]
     else
-      to = "1.0"
-      server = {"nickname" => (opts["nickname"] ? opts["nickname"] : opts["name"])}
-      server["deployment_href"] = opts["deployment_href"]
-      ret = {"server" => server}
-      begin
-        ret["cloud_id"] = opts["cloud_href"].split(/\/clouds\//).last
-      rescue Exception => e
-        ret["cloud_id"] = opts["cloud_id"]
-      end
+      ret = {"server" => {"instance" => {}}}
+      ret["server"]["name"] = (opts["name"] ? opts["name"] : opts["nickname"])
+      ret["server"]["description"] = opts["description"]
+      ret["server"]["deployment_href"] = opts["deployment_href"]
+      server = ret["server"]["instance"]
     end
 
     fields.each { |hsh|
@@ -192,22 +178,10 @@ class ServerInterface
       return new_array
     else
       href = old_href.dup
-      if @multicloud
-        href.gsub!(/ec2_/,'')
-        href.gsub!(/\/acct\/[0-9]*/,'')
-      end
+      href.gsub!(/ec2_/,'')
+      href.gsub!(/\/acct\/[0-9]*/,'')
       return href
     end
-#    if href.include?("acct")
-#      my_base_href, @account = href.split(/\/acct\//)
-#      @account, *remaining = @account.split(/\//)
-#      if @multicloud
-#        return my_base_href + "/" + remaining.join("/").gsub(/ec2_/,'')
-#      else
-#        return href
-#      end
-#    else #API 1.5
-#    end
   end
 
   # Since RightScale hands back the parameters with a "name" and "value" tags we should
