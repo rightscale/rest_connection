@@ -58,8 +58,7 @@ class Deployment
     connection.put(deploy_href.path, :deployment => {:parameters => {name => value} })
   end
 
-  # Function iterates over each server in hash and calls for appropiate object creation, (Server
-  # or McServer), from ServerInteraface.
+  # Function iterates over each server in hash and calls for McServer creation
   #
   # @return [Hash] servers
   #
