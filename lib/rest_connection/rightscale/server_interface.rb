@@ -40,6 +40,15 @@ class ServerInterface
       if deployment_id
         name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
         @impl = McServer.find_by(:name, deployment_id) { |n| n == name }.first
+
+        # Check if we are using Azure cloud, and set that as the Server so we get
+        # Azure behavior for the public/private ips.
+        cid = @impl.cloud_id
+        cloud_name = (Cloud.find_by_id(cid)).name
+        if cloud_name =~ /Azure/
+          @impl = AzureServer.find_by(:name, deployment_id) { |n| n == name }.first
+        end
+
       else
         @impl = McServer.new(params)
       end

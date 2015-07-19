@@ -351,3 +351,13 @@ class McServer < Server
     self.remove_tags(*tags)
   end
 end
+
+class AzureServer < McServer
+  # For the moment we can't use the public ip or the dns name passed into the instance variables.
+  # TODO: When the api us updated so we can get the port numbers for Azure we can use the public ips again
+  # We will need to  figure out a way to select either public or private.  For now, we can test 
+  # using only the private ips.
+  def dns_name
+    nil
+  end
+end
