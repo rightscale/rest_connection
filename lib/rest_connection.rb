@@ -107,6 +107,7 @@ module RestConnection
       http.read_timeout = 300
       if uri.scheme == 'https'
         http.use_ssl = true
+        http.ssl_version = :TLSv1
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
       headers = @settings[:common_headers]
