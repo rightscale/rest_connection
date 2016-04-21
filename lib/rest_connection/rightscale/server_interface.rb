@@ -24,34 +24,21 @@
 require 'rest_connection/ssh_hax'
 
 class ServerInterface
-  attr_reader :multicloud
 
   def initialize(cid = nil, params = {}, deployment_id = nil)
 
-    # If cid is nil, assume generic server, otherwise check value and if cloud
-    # id is in range of AWS clouds we can assume it's an AWS server
-    if cid
-      @multicloud = (cid.to_i > 10 ? true : false)
+    if deployment_id
+      name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
+      @impl = McServer.find_by(:name, deployment_id) { |n| n == name }.first
     else
-      @multicloud = true
-    end
-
-    if @multicloud
-      if deployment_id
-        name = params["nickname"] || params["name"] || params[:nickname] || params[:name]
-        @impl = McServer.find_by(:name, deployment_id) { |n| n == name }.first
-      else
-        @impl = McServer.new(params)
-      end
-    else
-      @impl = Server.new(params)
+      @impl = McServer.new(params)
     end
     self
   end
 
   def create(opts)
     location = connection.post(resource_plural_name, translate_create_opts(opts))
-    @impl = (@multicloud ? McServer.new('href' => location) : Server.new('href' => location))
+    @impl = McServer.new('href' => location)
     settings
     self
   end
@@ -75,8 +62,7 @@ class ServerInterface
   end
 
   def nickname
-    return @impl.nickname unless @multicloud
-    return @impl.name if @multicloud
+    return @impl.name
   end
 
   def method_missing(method_name, *args, &block)
@@ -112,34 +98,30 @@ class ServerInterface
               {"1.0" => [:ari_image_href],            "1.5" => [:ramdisk_image_href]}]
 
     opts = old_opts.dup
-    if @multicloud
-      to = "1.5"
-      if instance_only
-        ret = {"instance" => {}}
-        server = ret["instance"]
-      else
-        ret = {"server" => {"instance" => {}}}
-        ret["server"]["name"] = (opts["name"] ? opts["name"] : opts["nickname"])
-        ret["server"]["description"] = opts["description"]
-        ret["server"]["deployment_href"] = opts["deployment_href"]
-        server = ret["server"]["instance"]
-      end
+    to = "1.5"
+    if instance_only
+      ret = {"instance" => {}}
+      server = ret["instance"]
     else
-      to = "1.0"
-      server = {"nickname" => (opts["nickname"] ? opts["nickname"] : opts["name"])}
-      server["deployment_href"] = opts["deployment_href"]
-      ret = {"server" => server}
-      begin
-        ret["cloud_id"] = opts["cloud_href"].split(/\/clouds\//).last
-      rescue Exception => e
-        ret["cloud_id"] = opts["cloud_id"]
-      end
+      ret = {"server" => {"instance" => {}}}
+      ret["server"]["name"] = (opts["name"] ? opts["name"] : opts["nickname"])
+      ret["server"]["description"] = opts["description"]
+      ret["server"]["deployment_href"] = opts["deployment_href"]
+      server = ret["server"]["instance"]
     end
 
     fields.each { |hsh|
       next unless hsh[to]
       hsh[to].each { |field|
-        vals = opts.select {|k,v| [[hsh["1.0"]] + [hsh["1.5"]]].flatten.include?(k.to_sym) }
+        vals = opts.select {|k,v|
+          [ 
+            [ 
+              hsh["1.0"] 
+            ] + 
+            [ 
+              hsh["1.5"]
+            ] 
+          ].flatten.include?(k.to_sym) }
         # IMPORTANT NOTE REGARDING RUBY VERSIONS!
         #
         # In Ruby 1.9.3 the next line of code is required to be written the way it is. Previously, it was written as:
@@ -191,29 +173,16 @@ class ServerInterface
       return new_array
     else
       href = old_href.dup
-      if @multicloud
-        href.gsub!(/ec2_/,'')
-        href.gsub!(/\/acct\/[0-9]*/,'')
-      end
+      href.gsub!(/ec2_/,'')
+      href.gsub!(/\/acct\/[0-9]*/,'')
       return href
     end
-#    if href.include?("acct")
-#      my_base_href, @account = href.split(/\/acct\//)
-#      @account, *remaining = @account.split(/\//)
-#      if @multicloud
-#        return my_base_href + "/" + remaining.join("/").gsub(/ec2_/,'')
-#      else
-#        return href
-#      end
-#    else #API 1.5
-#    end
   end
 
   # Since RightScale hands back the parameters with a "name" and "value" tags we should
   # transform them into the proper hash.  This it the same for setting and getting.
   def parameters
-    return @impl.parameters unless @multicloud
-    return @impl.inputs if @multicloud
+    return @impl.inputs
   end
 
   def inputs
@@ -229,38 +198,32 @@ class ServerInterface
   end
 
   def launch
-    return @impl.launch if @multicloud
-    return @impl.start unless @multicloud
+    return @impl.launch
   end
 
   def terminate
-    return @impl.terminate if @multicloud
-    return @impl.stop unless @multicloud
+    return @impl.terminate
   end
 
   def start_ebs
-    return connection.logger("WARNING: Gateway Servers do not support start_ebs. Ignoring.") if @multicloud
-    return @impl.start_ebs unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support start_ebs. Ignoring.")
   end
 
   def stop_ebs
-    return connection.logger("WARNING: Gateway Servers do not support stop_ebs. Ignoring.") if @multicloud
-    return @impl.stop_ebs unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support stop_ebs. Ignoring.")
   end
 
   # This should be used with v4 images only.
   def run_script(script,opts=nil)
-    return connection.logger("WARNING: Gateway Servers do not support run_script. Did you mean run_executable?") if @multicloud
-    return @impl.run_script(script,opts) unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support run_script. Did you mean run_executable?")
   end
 
   def attach_volume(params)
-    return connection.logger("WARNING: Gateway Servers do not support attach_volume. Ignoring.") if @multicloud
-    return @impl.attach_volume(params) unless @multicloud
+    return connection.logger("WARNING: Gateway Servers do not support attach_volume. Ignoring.")
   end
 
   def wait_for_state(st,timeout=1200)
-    if @multicloud and st == "stopped"
+    if st == "stopped"
       st = "inactive"
     end
     @impl.wait_for_state(st,timeout)
@@ -269,11 +232,7 @@ class ServerInterface
   def save(new_params = nil)
     if new_params
       @impl.settings
-      if @multicloud
-        @impl.next_instance.params.merge!(translate_create_opts(new_params, :instance_only)["instance"])
-      else
-        @impl.params.merge!(translate_create_opts(new_params)["server"])
-      end
+      @impl.next_instance.params.merge!(translate_create_opts(new_params, :instance_only)["instance"])
     end
     @impl.save
   end
