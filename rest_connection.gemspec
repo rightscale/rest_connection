@@ -35,9 +35,13 @@ It currently has support for RightScale API 1.0 and 1.5.
     # Ruby 1.8.x needs limited activesupport version
     s.add_runtime_dependency 'activesupport', "<4.0.0"
     s.add_development_dependency 'ruby-debug'
-  else
+  elsif RUBY_VERSION =~ /^1\.9.*/
     s.add_runtime_dependency 'activesupport'
     s.add_runtime_dependency 'nokogiri'
     s.add_development_dependency 'ruby-debug19'
+  else
+    s.add_runtime_dependency 'activesupport'
+    s.add_runtime_dependency 'nokogiri'
+    s.add_development_dependency 'pry-byebug'
   end
 end
