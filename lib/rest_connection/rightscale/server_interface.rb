@@ -107,6 +107,7 @@ class ServerInterface
       ret["server"]["name"] = (opts["name"] ? opts["name"] : opts["nickname"])
       ret["server"]["description"] = opts["description"]
       ret["server"]["deployment_href"] = opts["deployment_href"]
+      ret["server"]["instance"]["placement_group_href"] = opts["placement_group_href"]
       server = ret["server"]["instance"]
     end
 
