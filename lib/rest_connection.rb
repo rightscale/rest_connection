@@ -262,7 +262,11 @@ module RestConnection
     def logger(message)
       init_message = "Initializing Logging using "
       if @@logger.nil?
-        if ENV['REST_CONNECTION_LOG']
+        if @settings[:log]
+          # pass a filename, or an object that responds to write/close methods
+          @@logger = Logger.new(@settings[:log])
+          init_message += @settings[:log].to_s
+        elsif ENV['REST_CONNECTION_LOG']
           @@logger = Logger.new(ENV['REST_CONNECTION_LOG'])
           init_message += ENV['REST_CONNECTION_LOG']
         else
